@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>204 Runs, 100M Tokens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: lab-report column; the quality/judgment split, ranked table and cost chart run full width; task detail and method last. */
+:root{
+  --paper:#f6f8f8; --panel:#ffffff; --ink:#14201f; --ink-2:#4a5a59; --ink-3:#7b8a89;
+  --rule:#d8e0df; --grid:#e7eded; --accent:#0f5f5a;
+  --h-pi:#2a78d6; --h-oc:#eb6834; --h-ot:#1baf7a;
+  --k1:#2e9e5b; --k2:#c9a21c; --k3:#e57a25; --k4:#d0383a;
+  --bad:#c23b3a; --bad-bg:#fbeaea; --zone:#e6f4ee; --hl:#eef3f2;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121817; --panel:#1a2120; --ink:#e8efee; --ink-2:#b0bfbd; --ink-3:#7f8f8d;
+  --rule:#2d3836; --grid:#232c2b; --accent:#5cc4b8;
+  --h-pi:#3987e5; --h-oc:#d95926; --h-ot:#199e70;
+  --k1:#3fb871; --k2:#d9b434; --k3:#ef8a3a; --k4:#e65456;
+  --bad:#e66767; --bad-bg:#3a2223; --zone:#1a2e27; --hl:#202928; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121817; --panel:#1a2120; --ink:#e8efee; --ink-2:#b0bfbd; --ink-3:#7f8f8d;
+  --rule:#2d3836; --grid:#232c2b; --accent:#5cc4b8;
+  --h-pi:#3987e5; --h-oc:#d95926; --h-ot:#199e70;
+  --k1:#3fb871; --k2:#d9b434; --k3:#ef8a3a; --k4:#e65456;
+  --bad:#e66767; --bad-bg:#3a2223; --zone:#1a2e27; --hl:#202928; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+@media (max-width:640px){.wrap{padding-inline:16px}}
+.col{max-width:70ch}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;font-stretch:78%;letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:750;font-stretch:85%;margin-top:64px}
+h3{font-size:1.05rem;font-weight:700;font-stretch:90%}
+p{margin:14px 0}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.lede{font-size:1.2rem;color:var(--ink-2);max-width:62ch;margin-top:18px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.small{font-size:.86rem;color:var(--ink-2)}
+hr{border:0;border-top:1px solid var(--rule);margin:56px 0 0}
+a{color:var(--accent)}
+.brief{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.brief div{background:var(--panel);padding:14px 16px}
+.brief b{display:block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.brief p{margin:0;font-size:.95rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:18px}
+@media (min-width:1000px){.stats{grid-template-columns:repeat(6,1fr)}}@media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--panel);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-family:var(--f-display);font-size:2rem;font-stretch:80%;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:.82rem;color:var(--ink-2);line-height:1.35}
+.stat.hot b{color:var(--bad)}
+.thesis{margin-top:22px;padding:16px 20px;border-left:4px solid var(--accent);background:var(--panel)}
+.thesis p{margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-mono);font-size:.76rem;color:var(--ink-2);margin:14px 0 6px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend i.hollow{background:transparent!important;border:2px solid var(--ink-3);width:9px;height:9px}
+.h-pi{background:var(--h-pi)} .h-oc{background:var(--h-oc)} .h-ot{background:var(--h-ot)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters .lab{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;margin-right:4px}
+.chip{font-family:var(--f-mono);font-size:.78rem;border:1px solid var(--rule);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sticky{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--rule);margin-top:24px}
+.tw{overflow-x:auto;margin-top:14px;border:1px solid var(--rule);background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:middle}
+th{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);font-weight:600;white-space:nowrap}
+thead tr.grp th{border-bottom:0;padding-bottom:0;text-align:center;color:var(--ink)}
+td.num,th.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.rank td.big{font-family:var(--f-display);font-size:1.25rem;font-weight:800;font-stretch:82%;text-align:right;font-variant-numeric:tabular-nums}
+.rank td.big.w{color:var(--ink-2);font-weight:700}
+.rank td.big.neg{color:var(--bad)}
+.rank .sep{border-left:1px solid var(--rule)}
+.rank td.hc{color:var(--ink-2);font-size:.82rem}
+.rank .mname{font-family:var(--f-display);font-weight:700;font-stretch:88%;font-size:1rem;line-height:1.2;white-space:nowrap}
+.rank .msub{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-3);line-height:1.3}
+.rank tr.cloud td:first-child{box-shadow:inset 3px 0 0 var(--ink-3)}
+.where{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);white-space:nowrap}
+.strip{min-width:200px}
+.track{position:relative;height:26px}
+.track .ax{position:absolute;inset:12px 0 auto 0;height:1px;background:var(--grid)}
+.track .tick{position:absolute;top:7px;width:1px;height:11px;background:var(--grid)}
+.track .span{position:absolute;top:10px;height:5px;border-radius:3px;background:var(--ink-3);opacity:.3}
+.dot{position:absolute;top:5px;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;border:2px solid var(--panel);cursor:default;padding:0}
+.dot.inc{background:transparent!important;border:2px solid var(--ink-3)}
+.dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.scaleh{position:relative;height:14px;min-width:200px}
+.scaleh span{position:absolute;transform:translateX(-50%);font-size:.62rem}
+#cost{margin-top:10px;width:100%}
+#cost svg{display:block;width:100%}
+#cost text{fill:var(--ink-3);font-family:var(--f-mono);font-size:11px}
+#cost text.pl{fill:var(--ink);font-weight:600}
+#cost text.zl{fill:var(--accent);letter-spacing:.06em}
+.tip{position:fixed;z-index:10;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:.75rem;line-height:1.45;padding:8px 10px;border-radius:4px;max-width:300px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.tip b{font-size:.85rem}
+.hfind{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:18px}
+.hcard{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;min-width:0}
+.hcard h3{margin-bottom:2px}
+.hcard p{margin:8px 0 0;font-size:.9rem;color:var(--ink-2)}
+.hrow{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:center;font-family:var(--f-mono);font-size:.75rem;color:var(--ink-2)}
+.hrow .dot{border-color:var(--panel)}
+.traps{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.traps li{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:start}
+.traps b{font-family:var(--f-display);font-stretch:90%}
+.traps .n{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:1.5rem;line-height:1;color:var(--bad);text-align:right;font-variant-numeric:tabular-nums}
+.traps .n small{display:block;font-family:var(--f-mono);font-size:.62rem;font-weight:400;color:var(--ink-3);letter-spacing:.03em}
+.traps p{grid-column:1/-1;margin:2px 0 0;font-size:.9rem;color:var(--ink-2)}
+.foot{margin-top:48px;font-size:.85rem;color:var(--ink-3)}
+@media (prefers-reduced-motion:no-preference){.dot{transition:transform .12s}.dot:hover{transform:scale(1.25)}}
+
+:root{--h-o1:#c2408f}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--h-o1:#d65aa3}}
+:root[data-theme="dark"]{--h-o1:#d65aa3}
+.h-o1{background:var(--h-o1)}
+.rank td.qj{font-family:var(--f-mono);font-size:.78rem;color:var(--ink-2);white-space:nowrap;text-align:right}
+.rank tr.cand td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.story{max-width:66ch}
+.story p{font-size:1.08rem}
+.answer{margin-top:20px;padding:16px 20px;border-left:4px solid var(--accent);background:var(--panel);max-width:66ch}
+.answer p{margin:0}
+.qjbar{display:grid;grid-template-columns:150px minmax(0,1fr) 54px;gap:10px;align-items:center;font-family:var(--f-mono);font-size:.8rem;color:var(--ink-2);margin:8px 0}
+.qjbar .bar{height:12px;background:var(--grid);border-radius:3px;position:relative;overflow:hidden}
+.qjbar .bar span{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:3px}
+.qjbar .bar span.j{background:var(--ink-3)}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:18px}
+.split .hcard b.big{font-family:var(--f-display);font-size:1.8rem;font-stretch:80%;font-weight:800;line-height:1}
+.reco td:first-child{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);white-space:nowrap}
+.reco tr.grp td{background:var(--hl);font-family:var(--f-display);font-weight:700;font-size:.95rem;text-transform:none;letter-spacing:0;color:var(--ink)}
+.sub{font-family:var(--f-display);font-size:1.25rem;font-weight:600;color:var(--ink-2);margin:6px 0 0;max-width:60ch}
+.learn{max-width:68ch;padding-left:1.3em}
+.learn li{margin:0 0 10px;font-size:1.02rem}
+.zoomwrap{margin-top:18px}
+.spec{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 18px;margin:22px 0 0;padding:16px 20px;background:var(--panel);border-left:4px solid var(--accent);max-width:78ch}
+.spec dt{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);padding-top:3px}
+.spec dd{margin:0;font-size:.98rem}
+.spec a{color:var(--accent)}
+.lead{font-size:1.15rem;max-width:62ch;font-weight:600}
+@media (max-width:560px){.spec{grid-template-columns:1fr;gap:2px}.spec dd{margin-bottom:8px}}
+#task h3{margin:22px 0 6px;font-family:var(--f-display);font-size:1.15rem}
+#zoom{margin-top:6px;width:100%}#zoom svg{display:block;width:100%}#zoom text{fill:var(--ink-3);font-family:var(--f-mono);font-size:11px}#zoom text.pl{fill:var(--ink);font-weight:600}
+.zoomwrap h3{font-family:var(--f-display);font-size:1rem;margin:0 0 4px}
+.about{margin-top:28px;padding-top:16px;border-top:1px solid var(--grid)}.about a{color:var(--accent)}.navlinks{margin:10px 0 0;font-family:var(--f-mono);font-size:.82rem}.navlinks a,a.inl{color:var(--accent)}</style>
+</head><body>
+<div class="wrap">
+  <header>
+    <h1>204 Runs, 100M Tokens: Which Agent Can Keep a Knowledge Base?</h1>
+    <p class="sub">30 models &amp; 13 harnesses put to the test · Jul–Oct 2026</p><p class="navlinks"><a href="method.html">Method and problems met</a> · <a href="runs.csv" download>All 204 runs (CSV)</a></p>
+    <div class="story">
+      <p>For some years I have used an Obsidian vault as my knowledge base: insights, decisions, people, tasks, ideas. Can an agent keep it up to date? I recorded a real meeting (the other participant agreed beforehand to the recording and the AI processing) and let agents update my vault, putting the right insights in the right files and folders.</p>
+    </div>
+    <dl class="spec">
+      <dt>Vault</dt><dd>~200 files, ~15K lines</dd>
+      <dt>Transcript</dt><dd>46 min of ambiguous, garbled French speech-to-text, ~30K tokens</dd>
+      <dt>Instructions</dt><dd>a one-line prompt, but a 145-line vault guide and a skill to file the insights</dd>
+      <dt>Context</dt><dd>agents search the vault, working context 50–95K tokens</dd>
+      <dt>Expected</dt><dd>4 destinations: a Journal entry, a meeting note, idea notes, a contact profile: right folder, frontmatter, tags, links</dd>
+      <dt>Score</dt><dd>out of 100: half note quality, half judgment, minus penalties (<a href="#score">details</a>)</dd>
+    </dl>
+  </header>
+
+  <section>
+    <h2>Verdict: local works, if you give it time</h2>
+    <p class="lead">Some frontier cloud models get it right in 1–6 minutes, but many other cloud models fall short. Locally, only one setup gets it right reliably, in about 15 minutes: the plain Qwen3.8 27B, 4-bit, extra-high effort, on Pi. Fine-tunes hit the top once, then fall back.</p>
+    <ol class="learn" id="learn"></ol>
+  </section>
+
+  <section>
+    <h2>Why it's a difficult bench</h2>
+    <ul class="learn">
+      <li><strong>Garbled input.</strong> Every line is echoed twice, because the microphone picked up both my voice and the speakers (no headphones). Speaker labels are unreliable; acronyms and names are mangled.</li>
+      <li><strong>But recoverable.</strong> The vault holds the ground truth about me, so an agent can attribute each statement to the right person.</li>
+      <li><strong>Ambiguous direction.</strong> The call was between peers. Read carelessly, the follow-up (who introduces whom) flips: <span id="nPitch"></span> runs got it right.</li>
+      <li><strong>Similar background.</strong> We share some family background, so the two biographies blur: <span id="nBio"></span> runs mixed them up or invented one.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What I would use today</h2>
+    <div class="tw"><table class="reco">
+      <thead><tr><th>Option</th><th>Configuration</th><th class="num">Scores</th><th class="num">Time</th><th class="num">Cost/run</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="5">Cloud: when privacy allows</td></tr>
+        <tr><td>Best quality</td><td><strong>Claude Opus 5.5</strong> on Pi, or <strong>GPT-6.1 Sol</strong> at medium effort. One run each.</td><td class="num">99</td><td class="num">2–5.5 min</td><td class="num">$0.25–0.86</td></tr>
+        <tr><td>Best value</td><td><strong>GPT-6 Luna</strong>, max effort. Any harness.</td><td class="num">80–97</td><td class="num">1–6 min</td><td class="num">~$0.04</td></tr>
+        <tr class="grp"><td colspan="5">Local: when it must stay private</td></tr>
+        <tr><td>Use</td><td><strong>Qwen3.8 27B</strong>, plain model, 4-bit, extra-high effort, 65K output limit, on Pi</td><td class="num">86–97</td><td class="num">14–19 min</td><td class="num">$0</td></tr>
+        <tr><td>Runner-up</td><td><strong>Swift</strong>, a Qwen3.8 27B fine-tune, same setup. Faster, less steady.</td><td class="num">40–93</td><td class="num">9–11 min</td><td class="num">$0</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Every model, ranked</h2>
+    <div class="thesis"><p><strong>One run proves little.</strong> The same Swift setup scored <strong>93</strong>, <strong>93</strong>, <strong>57</strong>, <strong>40</strong>, then <strong>92</strong>. Models are ranked by their <strong>median</strong> run, with the <strong>worst</strong> run beside it.</p></div>
+    <div class="brief" style="margin-top:18px">
+      <div><b>Median · Worst</b><p>The middle and the lowest score of a model's runs. Q · J = median quality and judgment, out of 50 each.</p></div>
+      <div><b>Harness</b><p>The agent program that drives the model. Pi and OpenCode were used most; Pi + custom prompt: Pi with my own system prompt.</p></div>
+      <div><b>Where it ran</b><p>Self-hosted: my laptop or home server. Splash is a faster inference runtime on the same home server. Cloud: a provider's API.</p></div>
+      <div><b>Runs counted</b><p id="counted"></p></div>
+    </div>
+    <div class="legend"><span><i class="h-pi"></i>Pi</span><span><i class="h-o1"></i>OpenCode 1</span><span><i class="h-oc"></i>OpenCode 2</span><span><i class="h-ot"></i>other harness</span></div>
+    <div class="tw"><table class="rank" id="rank"></table></div>
+    <p class="small col">Gaps under about 20 points are noise. Quantization and packaging variants are merged into one row; fine-tuned derivatives keep their own. Gray edge: cloud. Green edge: my local pick.</p>
+  </section>
+
+  <section>
+    <h2>Score, cost and speed</h2>
+    <p class="col">One dot per model: its median run. Up is better, left is cheaper. Self-hosted models have no per-run bill and sit in the $0 column. Color shows how long the run took, from green (fast) to red (slow).</p>
+    <div class="legend" id="costLegend"></div>
+    <div id="cost"></div>
+    <p class="small col">Logarithmic cost axis. Cost is what the provider reported for the run; cloud runs without a reported cost are left out. Only the top models are named; hover any dot for its details.</p>
+  </section>
+
+  <hr>
+  <section id="task">
+    <h2>Other learnings</h2>
+    <h3>Harnesses do matter</h3>
+    <p class="col">The harness is the program around the model: its prompt, tools and limits. It decides whether a run finishes, and the same model can score 30 points apart on two harnesses. Which harness works best depends on the model.</p>
+    <div class="hfind" id="hfind"></div>
+    <p class="small col">No harness wins everywhere. Pi was best for Claude Sonnet 5.5 and the self-hosted models, OpenCode 2 for Qwen3.8 Flash Next; GPT-6 Luna and DeepSeek did well on all of them. The other harnesses mostly stalled or failed their tool checks.</p>
+    <h3>Thinking effort matters</h3>
+    <p class="col">For self-hosted models, more than anything else. The same model, server and harness, at two effort levels:</p>
+    <div class="hfind" id="effort"></div>
+    <h3 id="score">Score in detail</h3>
+    <p class="col">The agent had to read the meeting transcript and update the vault. A grader then checked every file it wrote, item by item:</p>
+    <div class="tw"><table class="reco">
+      <thead><tr><th>Part</th><th>What was checked</th><th class="num">Points</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="3">Quality of the notes: 50</td></tr>
+        <tr><td>Right files</td><td>Four outputs, each in the right folder with real content: a Journal entry, a meeting note, an insight note (one idea per note), a profile of the other participant</td><td class="num">15</td></tr>
+        <tr><td>Main content</td><td>The framework the other participant explained during the call. Points for each of its ideas captured accurately.</td><td class="num">20</td></tr>
+        <tr><td>House style</td><td>The vault guide's conventions: frontmatter, dated file names, links to existing notes, a takeaway and a "so what" in the insight, no text copied across notes</td><td class="num">10</td></tr>
+        <tr><td>Extras</td><td>Connecting anecdotes to notes already in the vault, and listing concrete next steps</td><td class="num">5</td></tr>
+        <tr class="grp"><td colspan="3">Judgment: 50</td></tr>
+        <tr><td>Who does what</td><td>Three follow-ups agreed in the call, each with the right sender: the participant sends me a short profile to forward to one of my contacts (12); I help with an introduction (5); I send them an article (3)</td><td class="num">20</td></tr>
+        <tr><td>Relationship</td><td>Describes the participant as a peer and connector</td><td class="num">10</td></tr>
+        <tr><td>Biography</td><td>The participant's background, not mine: right past employers and current independent work, no invented roles (9); right family origin (6)</td><td class="num">15</td></tr>
+        <tr><td>Restraint</td><td>Leaves the vault's reference files about me untouched</td><td class="num">5</td></tr>
+        <tr class="grp"><td colspan="3">Penalties</td></tr>
+        <tr><td>History lost</td><td>Erasing existing content such as the Journal's past entries (−10 for a single line)</td><td class="num">−40</td></tr>
+        <tr><td>Invented biography</td><td>A false professional identity for the participant (−10 if isolated)</td><td class="num">−20</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small col">A score can go below zero. A hand-written reference answer scores 100.</p>
+    <p class="small col" id="axisNote"></p>
+    <p class="small col"><a href="method.html">How the runs were launched and graded, and the problems met</a> · <a href="runs.csv" download>all 204 runs (CSV)</a></p><p class="small col about"><strong>About me:</strong> I work in AI transformation by day, at a large corporation. At night I write and run experiments like this one. More on my Substack, <a href="https://www.theintelligencefabric.com/">The Intelligence Fabric</a>.</p>
+  </section>
+
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const RUNS=[[1,"Qwen3.6 27B 8-bit KV","local","Pi","pre",60,0,null,[42,18,0,0,13,5,0],0,[]],[2,"Gemma-4 26B","local","Pi","pre",2,0,null,[25,17,0,0,12,5,0],40,["h40"]],[3,"Gemma-4 26B","local","Bionic","unk",52,1,null,[33,19,0,3,11,5,0],0,[]],[4,"Qwen3.6 35B-A3B VL","local","OpenCode","clean",33,0,null,[46,7,0,0,7,0,0],20,["m20"]],[5,"Gemma-4 26B","local","OpenCode","clean",-24,0,null,[24,12,0,0,7,5,0],60,["h40","m20"]],[6,"Gemma-4 26B","local","OpenCode","clean",-17,0,null,[27,16,0,7,4,5,0],60,["h40","m20"]],[7,"Gemma-4 26B","local","Goose","unk",21,0,null,[33,8,0,0,8,0,0],20,["m20"]],[8,"Gemma-4 26B","local","Pi","pre",32,0,null,[23,29,12,7,5,5,12],20,["m20"]],[9,"Ornith 35B","local","Pi","pre",38,0,null,[32,26,12,0,9,5,12],20,["m20"]],[10,"Qwen3.6 35B-A3B XL","local","Pi","pre",20,0,null,[31,9,0,0,9,0,0],20,["m20"]],[11,"Qwen3.6 27B 8-bit KV","local","Pi","assist",66,0,null,[46,20,0,0,15,5,0],0,[]],[12,"Qwen3.6 27B 8-bit KV","local","OpenCode","clean",66,0,660,[48,18,0,0,13,5,0],0,[]],[13,"Qwen3.6 35B-A3B VL","local","Pi","assist",27,0,120,[31,16,0,0,11,5,0],20,["m20"]],[14,"Qwen3.6 35B-A3B","local","Pi","assist",36,0,135,[30,16,0,0,11,5,0],10,["m10"]],[15,"Qwen3.6 35B-A3B","local","Pi","assist",31,0,180,[37,14,0,0,9,5,0],20,["m20"]],[16,"Qwen3.6 35B-A3B VL","local","Pi","assist",18,0,null,[29,9,0,0,9,0,0],20,["m20"]],[17,"Qwen3.6 35B-A3B","local","OpenCode","clean",40,0,null,[46,14,0,0,9,5,0],20,["m20"]],[18,"Qwen3.6 35B-A3B XL","local","OpenCode","clean",42,0,null,[45,17,0,3,9,5,0],20,["m20"]],[19,"Ornith 35B","local","OpenCode","clean",39,0,null,[47,12,0,0,7,5,0],20,["m20"]],[20,"Qwen3.6 35B-A3B","local","little-coder","unk",37,0,null,[43,14,0,0,9,5,0],20,["m20"]],[21,"Gemma-4 26B Huihui","local","OpenCode","clean",22,0,null,[14,18,0,7,6,5,0],10,["m10"]],[22,"Qwen3.6 35B-A3B","local","little-coder","unk",39,1,null,[35,14,0,0,9,5,0],10,["m10"]],[23,"Qwen3.6 35B-A3B","local","Goose","unk",18,0,null,[26,12,3,0,9,0,0],20,["m20"]],[24,"Qwen3.6 35B-A3B","local","Goose","unk",32,1,null,[20,12,0,0,12,0,0],0,[]],[25,"Qwen3.6 35B-A3B","local","Junie","unk",33,1,null,[34,19,5,0,9,5,0],20,["m20"]],[26,"Gemma-4 31B","local","Pi","assist",53,0,null,[34,19,0,0,14,5,0],0,[]],[27,"Polaris 27B","local","Pi","assist",55,0,null,[35,20,0,0,15,5,0],0,[]],[28,"ThinkingCap 27B","local","Pi","assist",43,0,null,[37,16,0,0,11,5,0],10,["m10"]],[29,"Qwen3.6 35B-A3B oQ5/6","local","Pi","assist",44,0,null,[38,16,0,0,11,5,0],10,["m10"]],[30,"Qwen3.6 35B-A3B oQ5/6","local","Pi","assist",35,0,null,[39,16,0,0,11,5,0],20,["m20"]],[31,"Qwen3.6 35B Heretic","local","Pi","assist",20,0,null,[29,11,0,0,11,0,0],20,["m20"]],[32,"Qwen3.6 35B-A3B XL","local","Pi","assist",33,0,null,[37,16,0,0,11,5,0],20,["m20"]],[33,"Ornith 35B","local","Pi","assist",27,0,null,[38,9,0,0,9,0,0],20,["m20"]],[34,"Qwen3.6 27B 8-bit KV","local","Pi","assist",41,0,null,[42,19,3,0,11,5,0],20,["m20"]],[35,"Qwen3.6 35B-A3B oQ5/6","local","Pi","assist",33,0,null,[37,16,0,0,11,5,0],20,["m20"]],[36,"Ornith 35B","local","Pi","assist",59,0,null,[43,36,12,10,9,5,12],20,["m20"]],[37,"Qwen3.6 35B-A3B oQ5/6","local","Pi","assist",32,0,null,[38,14,0,3,11,0,0],20,["m20"]],[38,"Qwen3.6 35B-A3B","local","Pi","assist",53,0,null,[32,31,12,3,11,5,12],10,["m10"]],[39,"Qwen3.6 35B-A3B","local","Pi","assist",32,0,null,[41,11,0,0,11,0,0],20,["m20"]],[40,"Qwen3.6 35B-A3B","local","Pi","assist",20,0,null,[29,11,0,0,11,0,0],20,["m20"]],[41,"Qwen3.6 35B-A3B","local","Pi","assist",32,0,null,[41,11,0,0,11,0,0],20,["m20"]],[42,"Qwen3.6 35B-A3B","local","OpenCode","clean",51,0,null,[45,26,12,0,9,5,12],20,["m20"]],[43,"Qwen3.6 35B-A3B","local","little-coder","unk",46,0,null,[44,12,0,0,7,5,0],10,["m10"]],[44,"Qwen3.6 35B-A3B XL","local","OpenCode","clean",40,0,null,[46,14,0,0,9,5,0],20,["m20"]],[45,"Qwen3.6 35B-A3B XL","local","OpenCode","clean",41,0,null,[46,15,0,3,7,5,0],20,["m20"]],[46,"Qwen3.6 35B-A3B","local","OpenCode","clean",33,0,null,[41,12,3,0,9,0,0],20,["m20"]],[47,"ThinkingCap 27B","local","OpenCode","clean",67,0,240,[46,21,3,0,13,5,0],0,[]],[48,"Qwen3.6 27B 8-bit KV","local","OpenCode","clean",48,0,660,[46,12,0,0,7,5,0],10,["m10"]],[49,"Qwen3.6 27B","local","Pi","assist",51,0,660,[47,14,0,0,9,5,0],10,["m10"]],[50,"ThinkingCap 27B","local","Pi","assist",47,0,540,[41,16,0,0,11,5,0],10,["m10"]],[51,"Polaris 27B","local","Pi","assist",41,0,720,[42,19,0,3,11,5,0],20,["m20"]],[52,"Polaris 27B","local","Pi","assist",52,0,480,[46,16,0,0,11,5,0],10,["m10"]],[53,"Qwen3.6 35B-A3B","local","OpenCode","clean",78,0,176,[43,35,12,3,15,5,12],0,[]],[54,"Polaris 27B","local","OpenCode","clean",57,0,507,[41,16,0,0,11,5,0],0,[]],[55,"Qwen3.6 27B","local","OpenCode","clean",62,0,382,[46,16,0,0,11,5,0],0,[]],[56,"ThinkingCap 27B","local","OpenCode","clean",57,0,311,[41,16,0,0,11,5,0],0,[]],[57,"Qwen3.6 35B-A3B VL","local","OpenCode","clean",52,0,187,[46,26,12,0,9,5,12],20,["m20"]],[58,"Qwen3.6 35B-A3B GGUF","local","OpenCode","clean",28,0,722,[41,17,0,3,9,5,0],30,["m20","h10"]],[59,"Qwen3.5 35B Hermes","local","Hermes","clean",-10,0,323,[36,14,0,0,9,5,0],60,["m20","h40"]],[60,"Polaris 27B","local","OpenCode","clean",40,0,676,[46,14,0,0,9,5,0],20,["m20"]],[61,"Qwen3.6 27B","local","OpenCode","clean",50,0,416,[39,11,0,0,11,0,0],0,[]],[62,"Qwen3.6 27B","local","OpenCode","clean",25,0,621,[38,7,0,0,7,0,0],20,["m20"]],[63,"Qwen3.6 27B","local","OpenCode","clean",65,0,597,[46,19,3,0,11,5,0],0,[]],[64,"Qwen3.6 27B","local","OpenCode","clean",64,0,552,[45,19,3,0,11,5,0],0,[]],[65,"Qwen3.6 35B-A3B","local","OpenCode","clean",40,0,163,[45,15,0,3,7,5,0],20,["m20"]],[66,"Qwen3.6 35B-A3B","local","OpenCode","clean",59,0,170,[41,18,0,0,13,5,0],0,[]],[67,"Qwen3.6 35B-A3B","local","OpenCode","clean",65,0,178,[47,18,0,0,13,5,0],0,[]],[68,"Qwen3.6 35B-A3B","local","OpenCode","clean",27,1,373,[37,10,0,0,5,5,0],20,["m20"]],[69,"Qwen3.6 35B-A3B","local","OpenCode","clean",42,0,205,[46,16,3,3,5,5,0],20,["m20"]],[70,"Qwen3.6 35B-A3B","local","OpenInterpreter","unk",0,1,135,[0,0,0,0,0,0,0],0,[]],[71,"Qwen3.6 35B-A3B","local","Hermes","clean",47,1,958,[40,27,5,10,7,5,0],20,["m20"]],[72,"Qwen3.6 35B-A3B","local","Kimi Code","clean",62,1,109,[38,24,3,3,13,5,0],0,[]],[73,"Qwen3.6 35B-A3B","local","little-coder","clean",28,1,129,[36,12,0,0,7,5,0],20,["m20"]],[74,"Qwen3.6 35B-A3B","local","little-coder","clean",32,1,101,[35,17,0,3,9,5,0],20,["m20"]],[75,"Qwen3.6 35B-A3B","local","Pi","clean",30,1,151,[33,7,0,0,7,0,0],10,["m10"]],[76,"Qwen3.6 35B-A3B","local","Pi","clean",16,1,543,[13,13,0,3,5,5,0],10,["m10"]],[77,"Qwen3.6 35B-A3B","local","Kimi Code","clean",19,1,142,[27,12,5,0,7,0,0],20,["m20"]],[78,"Qwen3.6 35B-A3B","local","OpenCode","clean",38,0,173,[40,18,5,3,5,5,0],20,["m20"]],[79,"Qwen3.8 27B","local","OpenCode","clean",0,1,915,[0,0,0,0,0,0,0],0,[]],[80,"Qwen3.8 27B","local","OpenCode","clean",0,1,null,[0,0,0,0,0,0,0],0,[]],[81,"Qwen3.8 27B","local","OpenCode","clean",0,1,514,[0,0,0,0,0,0,0],0,[]],[82,"Qwen3.8 27B","local","OpenCode","clean",0,1,1502,[0,0,0,0,0,0,0],0,[]],[83,"Qwen3.6 35B-A3B","local","DSH","clean",60,1,250,[43,37,17,10,5,5,12],20,["m20"]],[84,"Qwen3.6 35B-A3B","local","DSH","clean",63,0,121,[47,26,12,0,9,5,12],10,["m10"]],[85,"Qwen3.6 35B-A3B","local","Pi","clean",0,1,476,[0,0,0,0,0,0,0],0,[]],[86,"Qwen3.6 35B-A3B","local","Pi","clean",0,1,484,[0,0,0,0,0,0,0],0,[]],[87,"Qwen3.6 35B-A3B","local","Pi","clean",5,0,162,[41,14,0,0,9,5,0],50,["m10","h40"]],[88,"Qwen3.6 35B-A3B","local","Pi","clean",77,0,105,[45,32,15,3,9,5,12],0,[]],[89,"Qwen3.8 27B","local","Chad","clean",61,1,1226,[43,18,0,0,13,5,0],0,[]],[90,"DeepSeek V4 Flash","cloud","OpenCode","clean",63,0,508,[47,16,0,0,11,5,0],0,[]],[91,"Kimi K3","cloud","OpenCode","clean",0,1,600,[0,0,0,0,0,0,0],0,[]],[92,"DeepSeek V4.1 Flash","cloud","OpenCode","clean",96,0,88,[48,48,20,10,13,5,12],0,[]],[93,"DeepSeek V4.1 Flash","cloud","Pi","clean",94,0,143,[48,46,20,10,11,5,12],0,[]],[94,"DeepSeek V4.1 Flash","cloud","OpenCode","clean",67,0,371,[48,19,3,0,11,5,0],0,[]],[95,"DeepSeek V4.1 Flash","cloud","Pi","clean",41,0,121,[43,18,3,3,7,5,0],20,["m20"]],[96,"DeepSeek V4.1 Flash","cloud","Pi","clean",96,0,152,[48,48,20,10,13,5,12],0,[]],[97,"DeepSeek V4.1 Flash","cloud","OpenCode","clean",83,0,165,[49,34,8,10,11,5,0],0,[]],[98,"DeepSeek V4.1 Flash","cloud","Pi","clean",68,0,117,[47,21,3,0,13,5,0],0,[]],[99,"DeepSeek V4.1 Flash","cloud","Pi","clean",93,0,176,[47,46,20,10,11,5,12],0,[]],[100,"GLM 5.3","cloud","Pi","clean",59,0,68,[41,18,0,0,13,5,0],0,[]],[101,"DeepSeek V4.1 Flash","cloud","Pi","clean",67,0,84,[48,19,3,0,11,5,0],0,[]],[102,"DeepSeek V4.1 Flash","cloud","OpenCode","clean",70,0,81,[48,32,8,10,9,5,0],10,["m10"]],[103,"Qwen3.8 27B","cloud","Pi","clean",69,0,836,[49,20,3,3,9,5,0],0,[]],[104,"Qwen3.8 27B","cloud","OpenCode","clean",69,0,683,[48,21,0,3,13,5,0],0,[]],[105,"Qwen3.8 Flash Next","cloud","OpenCode","clean",67,0,113,[46,21,3,0,13,5,0],0,[]],[106,"GPT-6 Luna","cloud","OpenCode","clean",80,0,63,[44,36,8,10,13,5,0],0,[]],[107,"GPT-6.1 Sol","cloud","OpenCode","clean",99,0,123,[49,50,20,10,15,5,12],0,[]],[108,"GPT-6 Luna","cloud","OpenCode","clean",93,0,266,[48,45,17,10,13,5,12],0,[]],[109,"Claude Sonnet 5.5","cloud","OpenCode","clean",84,0,81,[50,44,20,10,9,5,12],10,["m10"]],[110,"MiMo V2.6 Pro","cloud","OpenCode","clean",78,1,900,[33,45,20,7,13,5,12],0,[]],[111,"Kimi K3","cloud","OpenCode","clean",84,0,75,[48,36,8,10,13,5,0],0,[]],[112,"Hemmingway-1","lan","OpenCode","clean",61.5,0,873,[47,14.5,1.5,0,13,0,0],0,[]],[113,"Mistral Large 4","cloud","OpenCode","clean",36,0,299,[47,9,0,0,9,0,0],20,["m20"]],[114,"Mistral Large 4","cloud","OpenCode","clean",36,0,328,[47,9,0,0,9,0,0],20,["m20"]],[115,"Qwen3.8 Flash Next","cloud","OpenCode","clean",91,0,862,[49,42,17,10,13,2,12],0,[]],[116,"GPT-6 Luna","cloud","Pi","clean",95,0,339,[47,48,20,10,13,5,12],0,[]],[117,"Qwen3.6 35B Heretic","lan","OpenCode","clean",28,0,235,[36,12,3,0,9,0,0],20,["m20"]],[118,"Qwen3.6 35B-A3B","lan","OpenCode","clean",0,1,216,[0,0,0,0,0,0,0],0,[]],[119,"Qwen3.6 35B-A3B","lan","OpenCode","clean",0,1,307,[0,0,0,0,0,0,0],0,[]],[120,"Qwen3.6 35B-A3B","lan","OpenCode","clean",15,0,239,[28,7,0,3,4,0,0],20,["m20"]],[121,"Qwen3.6 35B-A3B","lan","OpenCode","clean",38,0,204,[33,15,0,3,7,5,0],10,["m10"]],[122,"Qwen3.6 35B Heretic","lan","OpenCode","clean",0,1,82,[0,0,0,0,0,0,0],0,[]],[123,"Qwen3.6 35B Heretic","lan","OpenCode","clean",-18,0,320,[33,9,0,0,9,0,0],60,["h40","m20"]],[124,"Qwen3.6 35B-A3B","lan","Pi","clean",61,0,74,[47,14,0,0,9,5,0],0,[]],[125,"Qwen3.6 35B-A3B","lan","Pi","clean",36,0,439,[42,14,0,0,9,5,0],20,["m20"]],[126,"Qwen3.6 35B-A3B XL","lan","Pi","clean",61,0,108,[47,14,0,0,9,5,0],0,[]],[127,"Qwen3.6 35B-A3B XL","lan","OpenCode","clean",16,0,159,[37,9,0,0,9,0,0],30,["m20","h10"]],[128,"Qwen3.6 35B-A3B XL","lan","Pi","clean",35,0,81,[41,14,0,0,9,5,0],20,["m20"]],[129,"Qwen3.6 35B-A3B XL","lan","OpenCode","clean",21,0,155,[32,9,0,0,9,0,0],20,["m20"]],[130,"Hemmingway-1","lan","Pi","clean",64,0,300,[48,16,0,0,11,5,0],0,[]],[131,"Hemmingway-1","lan","Pi","clean",73,0,296,[47,26,12,0,9,5,12],0,[]],[132,"Hemmingway-1","lan","OpenCode","clean",0,1,900,[0,0,0,0,0,0,0],0,[]],[133,"Hemmingway-1","lan","Pi","clean",63,0,315,[47,16,0,0,11,5,0],0,[]],[134,"Qwen3.8 27B Huihui","lan","Pi","clean",68,0,384,[49,19,3,0,11,5,0],0,[]],[135,"Qwen3.8 27B Huihui","lan","Pi","clean",40,0,402,[38,12,3,0,9,0,0],10,["m10"]],[136,"Qwen3.8 27B Huihui","lan","Pi","clean",64,0,505,[48,16,0,0,11,5,0],0,[]],[137,"Mistral Large 4","cloud","Pi","clean",61,0,312,[47,14,0,0,9,5,0],0,[]],[138,"Mistral Large 4","cloud","Pi","clean",39,0,310,[47,12,0,0,7,5,0],20,["m20"]],[139,"Qwen3.8 Flash Next","cloud","Pi","clean",68,0,789,[49,19,3,0,11,5,0],0,[]],[140,"Qwen3.8 Flash Next","cloud","Pi","clean",62,0,149,[49,13,0,0,13,0,0],0,[]],[141,"Qwen3.8 Flash Next","cloud","OpenCode 1","clean",67,0,94,[48,19,3,0,11,5,0],0,[]],[142,"Claude Sonnet 5.5","cloud","Pi","clean",95,0,58,[49,46,20,10,11,5,12],0,[]],[143,"Claude Sonnet 5.5","cloud","OpenCode 1","clean",68,0,48,[49,19,3,0,11,5,0],0,[]],[144,"GPT-6 Luna","cloud","Pi","clean",96,0,291,[48,48,20,10,13,5,12],0,[]],[145,"GPT-6 Luna","cloud","OpenCode 1","clean",97,0,304,[49,48,20,10,13,5,12],0,[]],[146,"Claude Opus 5.5","cloud","Pi","clean",99,0,332,[49,50,20,10,15,5,12],0,[]],[147,"Qwen3.8 27B","cloud","OpenCode 1","clean",0,1,1200,[0,0,0,0,0,0,0],0,[]],[148,"Qwen3.8 27B","cloud","Pi","clean",89,0,670,[48,41,17,10,9,5,12],0,[]],[149,"Hemmingway-1","lan","Pi","clean",76,0,354,[47,29,5,10,9,5,0],0,[]],[150,"Qwen3.8 27B ThinkingCap","lan","Pi","clean",66,0,452,[48,18,0,0,13,5,0],0,[]],[151,"Hemmingway-1","lan","OpenCode 1","clean",61,0,902,[47,14,0,0,9,5,0],0,[]],[152,"Hemmingway-1","lan","Pi","clean",57,0,358,[40,17,3,0,9,5,0],0,[]],[153,"Hemmingway-1","lan","Pi","clean",90,0,748,[49,41,17,10,9,5,12],0,[]],[154,"Hemmingway-1","lan","Pi","clean",75,0,608,[49,36,17,10,9,0,12],10,["h10"]],[155,"Hemmingway-1","lan","Pi","clean",91,0,648,[48,43,17,10,11,5,12],0,[]],[156,"Hemmingway-1","lan","Pi + custom prompt","clean",62,0,417,[48,14,0,0,9,5,0],0,[]],[157,"Hemmingway-1","lan","Pi + custom prompt","clean",43,0,564,[49,14,0,0,9,5,0],20,["m20"]],[158,"Qwen3.8 Flash Next","cloud","Pi + custom prompt","clean",57,0,312,[48,19,3,0,11,5,0],10,["m10"]],[159,"Qwen3.8 Flash Next","cloud","Pi + custom prompt","clean",45,0,294,[48,17,3,0,9,5,0],20,["m20"]],[160,"Claude Haiku 5.5","cloud","Pi","clean",71,0,221,[50,21,3,0,13,5,0],0,[]],[161,"Qwen3.8 27B Cold Fusion","lan","Pi","clean",38,1,172,[24,14,0,0,9,5,0],0,[]],[162,"Qwen3.8 27B Huihui","lan","Pi","clean",93.5,0,608,[49,44.5,18.5,10,11,5,12],0,[]],[163,"Qwen3.8 27B Huihui","lan","Pi","clean",64,0,584,[48,16,0,0,11,5,0],0,[]],[164,"Qwen3.8 27B · UD 4-bit","lan","Pi","clean",65,0,728,[49,16,0,0,11,5,0],0,[]],[165,"Qwen3.8 27B pi-4bit","lan","Pi","clean",64,0,422,[48,16,0,0,11,5,0],0,[]],[166,"Qwen3.8 27B ThinkingCap","lan","Pi","clean",0,1,1200,[0,0,0,0,0,0,0],0,[]],[167,"Qwen3.8 27B ThinkingCap","lan","Pi","clean",67,0,459,[49,18,0,0,13,5,0],0,[]],[168,"Hemmingway-1","lan","Pi","clean",90,0,1557,[49,41,20,10,9,2,12],0,[]],[169,"Swift (Qwen3.8 27B)","lan","Pi","clean",96,0,471,[50,46,20,10,11,5,12],0,[]],[170,"Swift (Qwen3.8 27B)","lan","Pi","clean",63,0,588,[49,14,0,0,9,5,0],0,[]],[171,"Swift (Qwen3.8 27B)","lan","OpenCode 1","clean",60,0,662,[49,11,0,0,11,0,0],0,[]],[172,"Swift (Qwen3.8 27B)","lan","Pi","clean",63,0,692,[49,14,0,0,9,5,0],0,[]],[173,"Swift (Qwen3.8 27B)","lan","Pi","clean",73,0,361,[49,24,3,3,13,5,0],0,[]],[174,"Hemmingway-1","lan","Pi","clean",62,0,524,[48,14,0,0,9,5,0],0,[]],[175,"Hemmingway-1","lan","Pi","clean",69,0,542,[49,20,3,3,9,5,0],0,[]],[176,"Qwen3.8 27B · UD 4-bit","lan","Pi","unk",0,1,1800,[0,0,0,0,0,0,0],0,[]],[177,"Swift (Qwen3.8 27B)","lan","Pi","clean",68,0,771,[49,19,3,0,11,5,0],0,[]],[178,"Swift (Qwen3.8 27B)","lan","Pi","clean",66,0,1426,[49,17,3,0,9,5,0],0,[]],[179,"Hemmingway-1","lan","Pi","clean",57,0,1363,[46,11,0,0,9,2,0],0,[]],[180,"Hemmingway-1","lan","Pi","clean",91,0,1439,[48,43,17,10,11,5,12],0,[]],[181,"Hemmingway-1 · GGUF","lan","Pi","clean",61,0,389,[49,12,3,0,9,0,0],0,[]],[182,"Hemmingway-1 · GGUF","lan","Pi","clean",85,0,1195,[49,36,17,10,9,0,12],0,[]],[183,"Swift 1.5 (Qwen3.8 27B)","lan","Pi","clean",89,0,453,[48,41,17,10,9,5,12],0,[]],[184,"Swift 1.5 (Qwen3.8 27B)","lan","Pi","clean",63,0,506,[48,15,0,0,13,2,0],0,[]],[185,"Swift 1.5 (Qwen3.8 27B)","lan","Pi","clean",70,0,556,[49,21,3,0,13,5,0],0,[]],[186,"Swift 1.5 (Qwen3.8 27B)","lan","Pi","clean",70,0,665,[49,21,3,0,13,5,0],0,[]],[187,"Swift 1.5 (Qwen3.8 27B) · Q6_K","lan","Pi","clean",64,0,296,[46,18,0,0,13,5,0],0,[]],[188,"Swift 1.5 (Qwen3.8 27B) · Q6_K","lan","Pi","clean",0,1,41,[0,0,0,0,0,0,0],0,[]],[189,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",65,0,227,[48,17,3,0,9,5,0],0,[]],[190,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",96,0,1158,[48,48,20,10,13,5,12],0,[]],[191,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",86,0,907,[48,38,17,10,11,0,12],0,[]],[192,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",97,0,849,[49,48,20,10,13,5,12],0,[]],[193,"Qwen3.8 27B · Q6_K","lan","Pi","clean",65,0,316,[49,16,0,0,11,5,0],0,[]],[194,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",0,1,404,[0,0,0,0,0,0,0],0,[]],[195,"Qwen3.8 27B · Splash 4-bit","lan","Pi","unk",0,1,0,[0,0,0,0,0,0,0],0,[]],[196,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",94,0,838,[48,46,20,10,11,5,12],0,[]],[197,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",91,0,1005,[48,43,20,10,13,0,12],0,[]],[198,"Qwen3.8 27B · Splash 4-bit","lan","Pi","clean",96,0,841,[48,48,20,10,13,5,12],0,[]],[199,"Swift (Qwen3.8 27B) · GGUF","lan","Pi","clean",93,0,637,[48,45,17,10,13,5,12],0,[]],[200,"Qwen3.6 35B-A3B Splash","lan","Pi","clean",55,0,179,[42,13,0,0,13,0,0],0,[]],[201,"Swift (Qwen3.8 27B) · GGUF","lan","Pi","clean",93,0,537,[47,46,20,10,11,5,12],0,[]],[202,"Swift (Qwen3.8 27B) · GGUF","lan","Pi","clean",57,0,513,[46,11,0,0,11,0,0],0,[]],[203,"Swift (Qwen3.8 27B) · GGUF","lan","Pi","clean",40,0,609,[48,12,0,3,9,0,0],20,["m20"]],[204,"Swift (Qwen3.8 27B) · GGUF","lan","Pi","clean",92,0,648,[49,43,17,10,11,5,12],0,[]]];
+const COST={139:.278,140:.113,141:.0673,142:.25,143:.363,144:.0326,145:.0414,146:.855,147:.161,148:.145,158:.1075,159:.0999,160:.0372,92:.054,93:.041,94:.103,95:.057,96:.062,97:.063,98:.051,99:.052,100:.103,101:.058,102:.062,103:.185,104:.188,105:.085,106:.017,107:.246,108:.036,109:.324,110:.078,111:.327,113:.214,114:.261,115:.098,116:.037,137:.25,138:.22};
+const PICK=new Set([190,191,192,194,196,197,198]);
+const MACH={local:"laptop",lan:"home server",cloud:"cloud API"};
+const EV={clean:"verified clean",assist:"answer key visible",pre:"before answer key existed",unk:"instruction path unaudited"};
+const PEN={m20:"−20 invented biography",m10:"−10 partly invented biography",h40:"−40 history destroyed",h10:"−10 minor history loss"};
+const hname=(h,n)=>h==="OpenCode"?(n>=92?"OpenCode 2":"OpenCode 1"):h;
+const byN=Object.fromEntries(RUNS.map(r=>[r[0],{n:r[0],m:r[1],t:r[2],self:r[2]!=="cloud",cand:PICK.has(r[0]),h:hname(r[3],r[0]),ev:r[4],s:r[5],inc:!!r[6]||r[5]==null,sec:r[7],br:r[8],pen:r[9],pc:r[10],cost:COST[r[0]]}]));
+const ALL=Object.values(byN);
+const fmtT=s=>s==null?"time not recorded":(s>=60?Math.floor(s/60)+"m "+String(Math.round(s%60)).padStart(2,"0")+"s":Math.round(s)+"s");
+const hcls=h=>h==="Pi"?"h-pi":h==="OpenCode 2"?"h-oc":h==="OpenCode 1"?"h-o1":"h-ot";
+const med=a=>{const b=a.slice().sort((x,y)=>x-y),k=b.length>>1;return b.length%2?b[k]:(b[k-1]+b[k])/2};
+const f1=v=>v==null?"—":(Math.round(v*10)/10).toString().replace("-","−");
+const fam=m=>/^Qwen3\.6 35B-A3B/.test(m)?"Qwen3.6 35B-A3B":/^Qwen3\.6 27B/.test(m)?"Qwen3.6 27B":m.replace(/ · .*/,"");
+const LOCALPICK="Qwen3.8 27B";
+const fair=r=>r.ev==="clean"||r.ev==="pre";
+const pass=r=>fair(r)&&!r.inc;
+const FAIR=ALL.filter(pass);
+
+const tip=document.getElementById("tip");
+function showTip(r,x,y){
+  const c=r.t==="cloud"?(r.cost!=null?" · $"+r.cost.toFixed(3):" · cost n/a"):" · $0";
+  const empty=!r.br||r.br[0]===0&&r.br[1]===0;
+  const b=empty?"no usable output":`Quality ${f1(r.br[0])}/50 · Judgment ${f1(r.br[1])}/50<br><span style="opacity:.75">who does what ${f1(r.br[2])}/20 · relationship ${f1(r.br[3])}/10 · biography ${f1(r.br[4])}/15 · restraint ${f1(r.br[5])}/5</span>`;
+  const p=r.pc&&r.pc.length?"<br>"+r.pc.map(k=>PEN[k]).join(", "):"";
+  tip.innerHTML=`<b>Run ${r.n} · ${r.s==null?"no output":f1(r.s)}${r.inc?"*":""}</b><br>${r.m}<br>${r.h} · ${MACH[r.t]}${r.cand?" (local pick)":""}<br>${fmtT(r.sec)}${c}<br>${b}${p}<br><span style="opacity:.7">${EV[r.ev]}${r.inc?" · stalled":""}</span>`;
+  tip.hidden=false;
+  const w=tip.offsetWidth,h=tip.offsetHeight;
+  tip.style.left=Math.max(8,Math.min(innerWidth-w-8,x+14))+"px";
+  tip.style.top=Math.max(8,(y-h-12<8?y+16:y-h-12))+"px";
+}
+const hideTip=()=>{tip.hidden=true};
+function bindDots(root){
+  root.querySelectorAll(".dot").forEach(d=>{
+    const r=byN[d.dataset.n];
+    d.addEventListener("mouseenter",e=>showTip(r,e.clientX,e.clientY));
+    d.addEventListener("mousemove",e=>showTip(r,e.clientX,e.clientY));
+    d.addEventListener("mouseleave",hideTip);
+    d.addEventListener("focus",()=>{const b=d.getBoundingClientRect();showTip(r,b.left,b.top)});
+    d.addEventListener("blur",hideTip);
+  });
+}
+const pos=v=>Math.max(0,Math.min(100,v??0));
+function track(rs){
+  const done=rs.filter(r=>!r.inc).map(r=>r.s), lo=Math.min(...done), hi=Math.max(...done);
+  return `<div class="track">${[0,50,100].map(v=>`<span class="tick" style="left:${v}%"></span>`).join("")}<span class="ax"></span>
+    ${done.length>1?`<span class="span" style="left:${pos(lo)}%;width:${pos(hi)-pos(lo)}%"></span>`:""}
+    ${rs.map(r=>`<button class="dot ${hcls(r.h)}${r.inc?" inc":""}" data-n="${r.n}" style="left:${pos(r.s)}%" aria-label="Run ${r.n}, ${r.h}, score ${r.s??"none"}${r.inc?", stalled":""}"></button>`).join("")}</div>`;
+}
+
+(function(){
+  const self=FAIR.filter(r=>r.self), cl=FAIR.filter(r=>!r.self), N=FAIR.length;
+  const j40=FAIR.filter(r=>r.br[1]>=40);
+  const L=[
+    `Top runs scored 96–99 out of 100 (${FAIR.filter(r=>r.s>=96).length} runs, ${FAIR.filter(r=>r.s>=96&&r.self).length} of them self-hosted), from a garbled ~30K-token transcript.`,
+    `Writing the notes is a task in itself (right folder, frontmatter, tags, house style) and is nearly solved: ${FAIR.filter(r=>r.br[0]>=45).length} of ${N} runs scored 45+/50 on quality, ${self.filter(r=>r.br[0]>=45).length} of ${self.length} local.`,
+    `Judgment separates models: median ${f1(med(cl.map(r=>r.br[1])))}/50 cloud, ${f1(med(self.map(r=>r.br[1])))} self-hosted. Of ${j40.length} runs at 40+, ${j40.filter(r=>r.self).length} are self-hosted; before Run 139 there were none.`,
+    `Self-hosted models need time to think: at medium effort Qwen3.8 27B never passed 65; at extra-high it scored 86–97. Leave a large output allowance for the thinking.`,
+    `Fine-tunes peak once and fall back. Swift opened with 96, then scored 63–73; Hemmingway-1 ranged from 57 to 91. The plain model was the steadiest.`,
+    `The harness (the agent program that drives the model: its prompt, tools and limits) mostly decides whether a run finishes. Understanding the meeting depends on the model. The best harness also differs by model: Pi suited Claude Sonnet 5.5 and the self-hosted models, OpenCode 2 suited Qwen3.8 Flash Next.`,
+    `Agents can destroy data. In ${ALL.filter(r=>r.pc&&r.pc.includes("h40")).length} runs, all with small self-hosted models, the agent rewrote the 570-line Journal with only the new entry, erasing everything before it. Keep the vault under version control or backed up before letting an agent edit it.`,
+  ];
+  document.getElementById("learn").innerHTML=L.map(x=>`<li>${x}</li>`).join("");
+  document.getElementById("nPitch").textContent=`only ${FAIR.filter(r=>r.br[6]>=12).length} of ${N}`;
+  document.getElementById("nBio").textContent=`${FAIR.filter(r=>r.pc.some(k=>k[0]==="m")).length} of ${N}`;
+  const unfair=ALL.filter(r=>!fair(r)), st=ALL.filter(r=>fair(r)&&r.inc);
+  document.getElementById("counted").textContent=`${N} of ${ALL.length}. ${unfair.length} are left out because a setup mistake let the agent see the grading answer key, or its instructions were not audited; ${st.length} more stalled without usable output.`;
+  const hl=document.getElementById("hlist");if(hl)hl.textContent=[...new Set(ALL.map(r=>r.h))].sort().join(", ");
+})();
+
+function stat(rs){const d=rs.filter(r=>!r.inc);const s=d.map(r=>r.s);return {n:rs.length,d:d.length,med:s.length?med(s):null,worst:s.length?Math.min(...s):null,q:d.length?med(d.map(r=>r.br[0])):null,j:d.length?med(d.map(r=>r.br[1])):null}}
+function cells(s,big){
+  if(!s.n)return `<td class="num hc sep">—</td><td class="num hc">—</td>`;
+  if(!s.d)return `<td class="num hc sep" colspan="2" style="text-align:center">${s.n} stalled</td>`;
+  if(big)return `<td class="big sep${s.med<0?" neg":""}">${f1(s.med)}</td><td class="big w${s.worst<0?" neg":""}">${f1(s.worst)}</td>`;
+  return `<td class="num sep">${f1(s.med)}</td><td class="num hc">${f1(s.worst)}</td>`;
+}
+function rankTable(){
+  const g={};
+  FAIR.forEach(r=>{const k=fam(r.m)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
+  const rows=Object.entries(g).map(([k,rs])=>{
+    const [f,c]=k.split("|");
+    const variants=[...new Set(rs.map(r=>r.m))].filter(m=>m!==f).map(m=>m.replace(f,"").replace(/^ · /,"").trim()).filter(Boolean);
+    const where=c==="cloud"?"cloud":"self-hosted";
+    return {f,c,rs,where,variants,all:stat(rs),o1:stat(rs.filter(r=>r.h==="OpenCode 1")),o2:stat(rs.filter(r=>r.h==="OpenCode 2")),pi:stat(rs.filter(r=>r.h==="Pi"))};
+  }).sort((a,b)=>(b.all.med??-999)-(a.all.med??-999)||(b.all.worst??-999)-(a.all.worst??-999));
+  const el=document.getElementById("rank");
+  el.innerHTML=`<thead><tr class="grp"><th></th><th></th><th></th><th colspan="2" class="sep">All harnesses</th><th></th><th colspan="2" class="sep">OpenCode 1</th><th colspan="2" class="sep">OpenCode 2</th><th colspan="2" class="sep">Pi</th><th></th></tr>
+  <tr><th class="num">#</th><th>Model</th><th class="num">Runs</th><th class="num sep">Median</th><th class="num">Worst</th><th class="num">Q · J</th><th class="num sep">Med</th><th class="num">Worst</th><th class="num sep">Med</th><th class="num">Worst</th><th class="num sep">Med</th><th class="num">Worst</th>
+  <th class="strip"><div class="scaleh"><span style="left:0">0</span><span style="left:50%">50</span><span style="left:100%">100</span></div></th></tr></thead><tbody>`+
+  rows.map((r,i)=>`<tr class="${r.f===LOCALPICK&&r.c==="self"?"cand":r.c==="cloud"?"cloud":""}"><td class="num hc">${r.all.d?i+1:""}</td>
+    <td><div class="mname">${r.f}</div><div class="msub"><span class="where">${r.where}</span>${r.variants.length?" · "+r.variants.join(", "):""}</div></td>
+    <td class="num">${r.all.d}</td>
+    ${cells(r.all,1)}<td class="qj">${r.all.d?`${f1(r.all.q)} · ${f1(r.all.j)}`:"—"}</td>${cells(r.o1)}${cells(r.o2)}${cells(r.pi)}<td class="strip">${track(r.rs)}</td></tr>`).join("")+`</tbody>`;
+  bindDots(el);
+}
+
+const BINS=[["under 2 min","--k1"],["2–5 min","--k2"],["5–15 min","--k3"],["over 15 min","--k4"]];
+const binOf=r=>{const m=r.sec/60;return m<2?0:m<5?1:m<15?2:3};
+document.getElementById("costLegend").innerHTML=BINS.map(b=>`<span><i style="background:var(${b[1]})"></i>${b[0]}</span>`).join("")+`<span><i class="hollow" style="border-color:var(--accent)"></i>my local pick: Qwen3.8 27B, extra-high</span>`;
+function medianRuns(){
+  const g={};
+  FAIR.filter(r=>r.sec!=null&&(r.self||r.cost!=null)).forEach(r=>{const k=fam(r.m)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
+  return Object.entries(g).map(([k,rs])=>{const md=med(rs.map(r=>r.s));
+    const r=rs.slice().sort((a,b)=>Math.abs(a.s-md)-Math.abs(b.s-md)||a.s-b.s)[0];
+    return Object.assign({},r,{lab:k.split("|")[0]+(k==="Qwen3.8 27B|self"?" · local pick":k==="Qwen3.8 27B|cloud"?" (cloud)":"")})});
+}
+function spread(ls,gap,lo,hi){ls.sort((a,b)=>a.y-b.y);for(let i=1;i<ls.length;i++)if(ls[i].y-ls[i-1].y<gap)ls[i].y=ls[i-1].y+gap;
+  const over=ls.length?ls[ls.length-1].y-hi:0;if(over>0)for(let i=ls.length-1;i>=0;i--){ls[i].y-=over;if(i&&ls[i].y-ls[i-1].y>=gap)break;if(i)ls[i-1].y=Math.min(ls[i-1].y,ls[i].y-gap)}}
+function drawCost(id){
+  const box=document.getElementById(id);
+  const W=box.clientWidth||800, H=Math.max(380,Math.min(520,W*.6));
+  const m={l:36,r:14,t:14,b:34}, ih=H-m.t-m.b, bw=Math.min(230,W*.34), gx=m.l+bw+20;
+  const c0=Math.log(.025),c1=Math.log(1.1), xc=c=>gx+(Math.log(c)-c0)/(c1-c0)*(W-m.r-gx-110), x=r=>r.self?m.l+14:xc(r.cost);
+  const ymin=-30,ymax=100,y=v=>m.t+(ymax-v)/(ymax-ymin)*ih;
+  const rs=medianRuns();
+  let g=`<rect x="${m.l}" y="${m.t}" width="${bw}" height="${ih}" fill="var(--panel)"/><text x="${m.l+bw/2}" y="${H-m.b+16}" text-anchor="middle">$0 self-hosted</text>`;
+  [-20,0,20,40,60,80,100].forEach(v=>{g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="${v===0?"var(--ink-3)":"var(--grid)"}" ${v===0?'stroke-dasharray="4 4"':""}/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`});
+  [.05,.1,.2,.5,1].forEach(t=>{g+=`<line x1="${xc(t)}" x2="${xc(t)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--grid)"/><text x="${xc(t)}" y="${H-m.b+16}" text-anchor="middle">$${t<.1?t.toFixed(2):t}</text>`});
+  g+=`<text x="${W-m.r}" y="${H-4}" text-anchor="end">cost per run →</text>`;
+  const so=rs.filter(r=>r.self).sort((a,b)=>b.s-a.s||(a.lab==="Hemmingway-1"?-1:b.lab==="Hemmingway-1"?1:0));
+  const sl=so.slice(0,so.findIndex(r=>r.lab==="Hemmingway-1")+1).map(r=>({r,y:y(r.s)+4}));
+  spread(sl,13,m.t,H-m.b);
+  sl.forEach(l=>{g+=`<line x1="${m.l+20}" y1="${y(l.r.s)}" x2="${m.l+34}" y2="${l.y-4}" stroke="var(--ink-3)" stroke-width=".8"/><text class="pl" x="${m.l+38}" y="${l.y}">${l.r.lab}</text>`});
+  const dots=rs.filter(r=>!r.self).map(r=>({r,cx:x(r),cy:y(r.s)})), boxes=[];
+  const hit=(b,own)=>b.x0<gx||b.x1>W-m.r||b.y0<m.t||b.y1>H-m.b||boxes.some(o=>b.x0<o.x1&&b.x1>o.x0&&b.y0<o.y1&&b.y1>o.y0)||
+    dots.some(d=>d!==own&&d.cx+8>b.x0&&d.cx-8<b.x1&&d.cy+8>b.y0&&d.cy-8<b.y1);
+  dots.filter(d=>d.r.s>80).sort((a,b)=>a.cy-b.cy).forEach(d=>{const w=d.r.lab.length*6.7;
+    const C=[];[0,-11,11,-22,22].forEach(dy=>{C.push({a:"start",tx:d.cx+11,dy},{a:"end",tx:d.cx-11,dy})});
+    const pick=C.find(c=>{const x0=c.a==="start"?c.tx:c.tx-w,b={x0,x1:x0+w,y0:d.cy+c.dy-7,y1:d.cy+c.dy+6};return !hit(b,d)&&(boxes.push(b),1)})||C[0];
+    if(pick.dy)g+=`<line x1="${d.cx+(pick.a==="start"?5:-5)}" y1="${d.cy}" x2="${pick.tx+(pick.a==="start"?-2:2)}" y2="${d.cy+pick.dy}" stroke="var(--ink-3)" stroke-width=".8"/>`;
+    g+=`<text class="pl" x="${pick.tx}" y="${d.cy+pick.dy+4}" text-anchor="${pick.a}">${d.r.lab}</text>`});
+  rs.forEach(r=>{g+=`<circle cx="${x(r)}" cy="${y(r.s)}" r="6.5" fill="var(${BINS[binOf(r)][1]})" stroke="${r.lab.includes("local pick")?"var(--accent)":"var(--paper)"}" stroke-width="${r.lab.includes("local pick")?2.6:1.5}"/>`});
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Median run per model: score against cost per run, colored by wall time">${g}</svg>`;
+  const svg=box.querySelector("svg");
+  svg.addEventListener("mousemove",e=>{
+    const p=svg.getBoundingClientRect(),px=e.clientX-p.left,py=e.clientY-p.top;
+    let best=null,bd=1e9;rs.forEach(r=>{const dx=x(r)-px,dy=y(r.s)-py,d=dx*dx+dy*dy;if(d<bd){bd=d;best=r}});
+    if(best&&bd<400)showTip(best,e.clientX,e.clientY);else hideTip();
+  });
+  svg.addEventListener("mouseleave",hideTip);
+}
+
+(function(){
+  const F=[
+    {t:"Claude Sonnet 5.5 · cloud",rows:[["Pi",[142]],["OpenCode 1",[143]],["OpenCode 2",[109]]],p:"Pi 95 in one minute. The same model scored 68 and 84 on OpenCode."},
+    {t:"GPT-6 Luna · cloud",rows:[["Pi",[116,144]],["OpenCode 1",[145]],["OpenCode 2",[106,108]]],p:"93–97 on every harness after one early 80. The model carries the run."},
+    {t:"Qwen3.8 Flash Next · cloud",rows:[["Pi",[139,140]],["OpenCode 1",[141]],["OpenCode 2",[115]]],p:"The exception: 91 on OpenCode 2, 62–68 elsewhere. One run each, so possibly luck."},
+    {t:"Swift · home server",rows:[["Pi",[169,170,172,173,177,178]],["OpenCode 1",[171]]],p:"Pi 63–96, OpenCode 1 60."},
+    {t:"Hemmingway-1 · home server",rows:[["Pi",[130,131,133,149,152,153,154,155,168,174,175,179,180]],["OpenCode 1",[151]],["OpenCode 2",[112,132]]],p:"Pi 57–91. OpenCode took about 15 minutes for 61, or timed out."},
+    {t:"DeepSeek V4.1 Flash · cloud",rows:[["Pi",[93,95,96,98,99,101]],["OpenCode 2",[92,94,97,102]]],p:"Pi 41–96, OpenCode 2 67–96. Both reach the top score; the model's judgment decides."},
+  ];
+  const el=document.getElementById("hfind");
+  el.innerHTML=F.map(f=>`<div class="hcard"><h3>${f.t}</h3>${f.rows.map(([h,ns])=>`<div class="hrow" style="grid-template-columns:86px minmax(0,1fr)"><span>${h}</span>${track(ns.map(n=>byN[n]))}</div>`).join("")}<p>${f.p}</p></div>`).join("");
+  bindDots(el);
+  const E=[
+    {t:"Qwen3.8 27B · home server",rows:[["medium",[164,189,193]],["extra-high",[190,191,192,194,196,197,198]]],p:"Medium: 65 three times, in 4–12 minutes. Extra-high: 86–97 in 14–19 minutes; one run ran out of output room."},
+    {t:"Swift 1.5 · home server",rows:[["medium",[187]],["extra-high",[183,184,185,186]]],p:"Medium 64. Extra-high 63–89: better, but a fine-tune stays unsteady."},
+    {t:"Hemmingway-1 · home server",rows:[["medium",[181]],["extra-high",[182]]],p:"Same model and server: 61 at medium, 85 at extra-high."},
+  ];
+  const ee=document.getElementById("effort");
+  ee.innerHTML=E.map(f=>`<div class="hcard"><h3>${f.t}</h3>${f.rows.map(([h,ns])=>`<div class="hrow" style="grid-template-columns:86px minmax(0,1fr)"><span>${h}</span>${track(ns.map(n=>byN[n]))}</div>`).join("")}<p>${f.p}</p></div>`).join("");
+  bindDots(ee);
+})();
+
+(function(){
+  const CELLS=[[153,154,155],[174,175],[177,178],[179,180],[149,152],[156,157],[158,159],[162,163],[169,170],[183,184,185,186],[190,191,192,196],[197,198],[199,201,202,203,204],[116,144],[17,42,53,65,66,67,69,78],[18,44],[12,48],[120,121],[124,125],[126,128],[127,129],[134,135,136],[130,131,133],[93,95],[99,101],[92,94],[106,108,116],[113,114],[137,138]];
+  const rq=[],rj=[];
+  CELLS.forEach(c=>{const rs=c.map(n=>byN[n]).filter(r=>!r.inc&&r.br);if(rs.length<2)return;
+    const q=rs.map(r=>r.br[0]),j=rs.map(r=>r.br[1]);rq.push(Math.max(...q)-Math.min(...q));rj.push(Math.max(...j)-Math.min(...j))});
+  const avg=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);
+  document.getElementById("axisNote").innerHTML=`<strong>Which half varies:</strong> when the same setup is rerun, quality moves by ${avg(rq)} points on average and judgment by ${avg(rj)} (${rq.length} repeated setups).`;
+})();
+
+const drawAll=()=>{drawCost("cost")};
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,120)});
+rankTable();drawAll();
+</script>
+</body></html>

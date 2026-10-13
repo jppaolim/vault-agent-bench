@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Method and Problems Met</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>/* Layout: lab-report column; the quality/judgment split, ranked table and cost chart run full width; task detail and method last. */
+:root{
+  --paper:#f6f8f8; --panel:#ffffff; --ink:#14201f; --ink-2:#4a5a59; --ink-3:#7b8a89;
+  --rule:#d8e0df; --grid:#e7eded; --accent:#0f5f5a;
+  --h-pi:#2a78d6; --h-oc:#eb6834; --h-ot:#1baf7a;
+  --k1:#2e9e5b; --k2:#c9a21c; --k3:#e57a25; --k4:#d0383a;
+  --bad:#c23b3a; --bad-bg:#fbeaea; --zone:#e6f4ee; --hl:#eef3f2;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121817; --panel:#1a2120; --ink:#e8efee; --ink-2:#b0bfbd; --ink-3:#7f8f8d;
+  --rule:#2d3836; --grid:#232c2b; --accent:#5cc4b8;
+  --h-pi:#3987e5; --h-oc:#d95926; --h-ot:#199e70;
+  --k1:#3fb871; --k2:#d9b434; --k3:#ef8a3a; --k4:#e65456;
+  --bad:#e66767; --bad-bg:#3a2223; --zone:#1a2e27; --hl:#202928; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121817; --panel:#1a2120; --ink:#e8efee; --ink-2:#b0bfbd; --ink-3:#7f8f8d;
+  --rule:#2d3836; --grid:#232c2b; --accent:#5cc4b8;
+  --h-pi:#3987e5; --h-oc:#d95926; --h-ot:#199e70;
+  --k1:#3fb871; --k2:#d9b434; --k3:#ef8a3a; --k4:#e65456;
+  --bad:#e66767; --bad-bg:#3a2223; --zone:#1a2e27; --hl:#202928; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+@media (max-width:640px){.wrap{padding-inline:16px}}
+.col{max-width:70ch}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;font-stretch:78%;letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:750;font-stretch:85%;margin-top:64px}
+h3{font-size:1.05rem;font-weight:700;font-stretch:90%}
+p{margin:14px 0}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.lede{font-size:1.2rem;color:var(--ink-2);max-width:62ch;margin-top:18px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.small{font-size:.86rem;color:var(--ink-2)}
+hr{border:0;border-top:1px solid var(--rule);margin:56px 0 0}
+a{color:var(--accent)}
+.brief{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.brief div{background:var(--panel);padding:14px 16px}
+.brief b{display:block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.brief p{margin:0;font-size:.95rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:18px}
+@media (min-width:1000px){.stats{grid-template-columns:repeat(6,1fr)}}@media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--panel);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-family:var(--f-display);font-size:2rem;font-stretch:80%;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:.82rem;color:var(--ink-2);line-height:1.35}
+.stat.hot b{color:var(--bad)}
+.thesis{margin-top:22px;padding:16px 20px;border-left:4px solid var(--accent);background:var(--panel)}
+.thesis p{margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--f-mono);font-size:.76rem;color:var(--ink-2);margin:14px 0 6px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend i.hollow{background:transparent!important;border:2px solid var(--ink-3);width:9px;height:9px}
+.h-pi{background:var(--h-pi)} .h-oc{background:var(--h-oc)} .h-ot{background:var(--h-ot)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters .lab{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;margin-right:4px}
+.chip{font-family:var(--f-mono);font-size:.78rem;border:1px solid var(--rule);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sticky{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--rule);margin-top:24px}
+.tw{overflow-x:auto;margin-top:14px;border:1px solid var(--rule);background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:middle}
+th{font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);font-weight:600;white-space:nowrap}
+thead tr.grp th{border-bottom:0;padding-bottom:0;text-align:center;color:var(--ink)}
+td.num,th.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.rank td.big{font-family:var(--f-display);font-size:1.25rem;font-weight:800;font-stretch:82%;text-align:right;font-variant-numeric:tabular-nums}
+.rank td.big.w{color:var(--ink-2);font-weight:700}
+.rank td.big.neg{color:var(--bad)}
+.rank .sep{border-left:1px solid var(--rule)}
+.rank td.hc{color:var(--ink-2);font-size:.82rem}
+.rank .mname{font-family:var(--f-display);font-weight:700;font-stretch:88%;font-size:1rem;line-height:1.2;white-space:nowrap}
+.rank .msub{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-3);line-height:1.3}
+.rank tr.cloud td:first-child{box-shadow:inset 3px 0 0 var(--ink-3)}
+.where{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);white-space:nowrap}
+.strip{min-width:200px}
+.track{position:relative;height:26px}
+.track .ax{position:absolute;inset:12px 0 auto 0;height:1px;background:var(--grid)}
+.track .tick{position:absolute;top:7px;width:1px;height:11px;background:var(--grid)}
+.track .span{position:absolute;top:10px;height:5px;border-radius:3px;background:var(--ink-3);opacity:.3}
+.dot{position:absolute;top:5px;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;border:2px solid var(--panel);cursor:default;padding:0}
+.dot.inc{background:transparent!important;border:2px solid var(--ink-3)}
+.dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.scaleh{position:relative;height:14px;min-width:200px}
+.scaleh span{position:absolute;transform:translateX(-50%);font-size:.62rem}
+#cost{margin-top:10px;width:100%}
+#cost svg{display:block;width:100%}
+#cost text{fill:var(--ink-3);font-family:var(--f-mono);font-size:11px}
+#cost text.pl{fill:var(--ink);font-weight:600}
+#cost text.zl{fill:var(--accent);letter-spacing:.06em}
+.tip{position:fixed;z-index:10;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:.75rem;line-height:1.45;padding:8px 10px;border-radius:4px;max-width:300px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.tip b{font-size:.85rem}
+.hfind{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:18px}
+.hcard{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;min-width:0}
+.hcard h3{margin-bottom:2px}
+.hcard p{margin:8px 0 0;font-size:.9rem;color:var(--ink-2)}
+.hrow{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:center;font-family:var(--f-mono);font-size:.75rem;color:var(--ink-2)}
+.hrow .dot{border-color:var(--panel)}
+.traps{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.traps li{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:start}
+.traps b{font-family:var(--f-display);font-stretch:90%}
+.traps .n{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:1.5rem;line-height:1;color:var(--bad);text-align:right;font-variant-numeric:tabular-nums}
+.traps .n small{display:block;font-family:var(--f-mono);font-size:.62rem;font-weight:400;color:var(--ink-3);letter-spacing:.03em}
+.traps p{grid-column:1/-1;margin:2px 0 0;font-size:.9rem;color:var(--ink-2)}
+.foot{margin-top:48px;font-size:.85rem;color:var(--ink-3)}
+@media (prefers-reduced-motion:no-preference){.dot{transition:transform .12s}.dot:hover{transform:scale(1.25)}}
+.about{margin-top:28px;padding-top:16px;border-top:1px solid var(--grid)}.about a{color:var(--accent)}.navlinks{margin:10px 0 0;font-family:var(--f-mono);font-size:.82rem}.navlinks a,a.inl{color:var(--accent)}
+.doc{max-width:74ch}.doc h1{margin-top:8px}.doc h2{margin-top:44px}.doc h3{margin-top:26px}
+.doc p,.doc li{font-size:1.02rem}.doc code{font-family:var(--f-mono);font-size:.85em}
+.tw{overflow-x:auto;margin:14px 0}.mt{border-collapse:collapse;width:100%;font-size:.92rem}
+.mt th,.mt td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--grid)}
+.mt th{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.mt td.num{text-align:right;white-space:nowrap;font-family:var(--f-mono)}
+</style>
+</head>
+<body><div class="wrap"><main class="doc">
+<p class="navlinks"><a href="index.html">← Results</a> · <a href="runs.csv" download>All 204 runs (CSV)</a></p>
+<h1>Method and problems met</h1>
+<p>How the 204 runs behind <a class="inl" href="index.html">the results page</a> were produced and graded, what went wrong along the way, and what the numbers can and cannot tell you. Every run is in <a class="inl" href="runs.csv">runs.csv</a>.</p>
+<p>The benchmark itself cannot be rerun by anyone else: the vault and the meeting are private. This page is here so you can check how the conclusions were reached, not to reproduce them.</p>
+<h2>The task</h2>
+<p>One real 46-minute meeting between two peers, recorded with the other participant's agreement, transcribed automatically in French. The transcript is noisy: every line appears twice (the microphone picked up both the voice and the speakers), speaker labels are unreliable, and names and acronyms are mangled.</p>
+<p>The agent receives a one-line prompt and works inside a copy of an Obsidian vault of about 200 files and 15K lines. The vault carries its own instructions (a 145-line guide) and a skill that describes how to file insights. The agent has to search the vault itself.</p>
+<p>A complete answer touches four places, each in the right folder with correct frontmatter, tags and links:</p>
+<ul class="learn"><li>a new entry at the top of the Journal, without losing past entries;</li><li>a meeting note;</li><li>one or more insight notes, one idea per note;</li><li>a profile of the other participant.</li></ul>
+<h2>Scoring (ScoreV2)</h2>
+<p>Each run gets a score out of 100: <strong>quality of the notes (50) + judgment (50) − penalties</strong>. A hand-written reference answer scores 100. A score can go below zero.</p>
+<div class="tw"><table class="mt"><thead><tr><th>Part</th><th>What is checked</th><th>Points</th></tr></thead><tbody><tr><td>Right files</td><td>The four outputs exist, in the right place, with real content</td><td class="num">15</td></tr><tr><td>Main content</td><td>Each idea of the framework explained during the call, captured accurately</td><td class="num">20</td></tr><tr><td>House style</td><td>The vault guide's conventions: frontmatter, dated names, links, a takeaway in each insight, no copied text</td><td class="num">10</td></tr><tr><td>Extras</td><td>Linking anecdotes to existing notes, concrete next steps</td><td class="num">5</td></tr><tr><td>Who does what</td><td>Three follow-ups agreed in the call, each with the right sender (12 + 5 + 3)</td><td class="num">20</td></tr><tr><td>Relationship</td><td>The participant described as a peer and connector</td><td class="num">10</td></tr><tr><td>Biography</td><td>The participant's background, not the vault owner's; no invented roles</td><td class="num">15</td></tr><tr><td>Restraint</td><td>The vault's reference files about the owner left untouched</td><td class="num">5</td></tr><tr><td>Penalty: history lost</td><td>Existing content erased, such as past Journal entries</td><td class="num">−10 to −40</td></tr><tr><td>Penalty: invented biography</td><td>A false professional identity given to the participant</td><td class="num">−10 to −20</td></tr></tbody></table></div>
+<p>The quality half rewards extraction. The judgment half is where models differ: who promised what to whom, and whose background is whose. Both people share a similar background, which makes the two biographies easy to blur.</p>
+<h3>How the grading was done</h3>
+<ul class="learn"><li>Every run was graded from its preserved output, file by file, against the transcript and the vault's previous state.</li><li>A first pass was done by a model that did not know which model produced the run.</li><li>Every judgment item and every penalty was then reviewed a second time against the complete output files, for every run with output.</li><li>Each graded item cites the exact lines it relies on, and a script checks that those quotes exist in the output.</li><li>Quality points were reviewed less strictly than judgment points. Treat differences of a few quality points as noise.</li></ul>
+<p>The first scoring system (ScoreV1) mostly rewarded extraction and missed several judgment errors. It was retired; all 204 runs were regraded with ScoreV2, and only ScoreV2 appears here.</p>
+<h2>How a run was launched</h2>
+<ul class="learn"><li>Each run starts from the same clean copy of the vault, on its own Git branch, and is kept whatever happens: a failed or empty run is evidence too.</li><li>The agent runs unattended (headless), launched from inside the vault, with the prompt passed through standard input and the model named explicitly.</li><li>Before a new harness or provider was used for a numbered run, a separate pilot checked that it really found the vault's instructions and skill, and that its read, search, write and edit tools worked. Pilots are not numbered runs.</li><li>The full run was timed. For self-hosted models, memory was sampled every second.</li><li>After each run, the complete diff was checked: were the required files written, was the Journal preserved, were reference files left alone, did the agent stay inside the vault copy.</li></ul>
+<h3>Where the models ran</h3>
+<ul class="learn"><li><strong>Self-hosted:</strong> on my own machines, through a local inference server.</li><li><strong>Cloud:</strong> provider APIs, with zero data retention and no training set up.</li></ul>
+<h3>Harnesses</h3>
+<p>The harness is the agent program around the model: its system prompt, tools and limits. Tested: Pi (with and without a custom system prompt), OpenCode 1 (classic), OpenCode 2, Goose, little-coder, Junie, Hermes, OpenInterpreter, Kimi Code, Bionic, DSH and Chad. Most runs used Pi and OpenCode.</p>
+<h2>Problems met</h2>
+<p>Most of the effort went into making runs comparable, not into running them.</p>
+<p><strong>The answer key leaked.</strong> For a while, the notes describing the expected answer sat in an instruction file that agents could see from the vault. 25 runs saw it. They are kept and tagged, but excluded from the rankings. From then on, the benchmark's administration notes were hidden during every launch and restored afterwards.</p>
+<p><strong>Each harness discovers instructions differently.</strong> One harness reads the vault guide, another ignores it; a skill present on disk may never be loaded. Links that the vault relies on disappeared in fresh copies because version control ignores them. The only reliable check was a pilot run showing the instructions and skill actually being read.</p>
+<p><strong>Tool schemas that lie.</strong> Some harnesses advertised one tool format to the model and rejected it when called. The model then spends the run fighting its own tools. This counts as a harness failure, not a model failure.</p>
+<p><strong>Context limits that disagree.</strong> The inference server can enforce a smaller context than the harness believes it has, so the harness never compacts its history and the run overflows. The output allowance also eats into the context. Server and harness limits had to be aligned before each self-hosted run.</p>
+<p><strong>Effort settings are often only hints.</strong> Asking for "high" reasoning does not mean the server applies a real thinking budget. For self-hosted models, the setting that actually reached the server mattered more than anything else: the same model scored about 65 at medium effort and 86–97 at extra-high. Extra-high can also run out of output room: one run stopped before writing anything.</p>
+<p><strong>Finishing is not the same as succeeding.</strong> Harnesses exited cleanly after writing only some of the files, or none. Some runs stalled, some looped. Every outcome was classified from the diff, never from the exit status. Fourteen runs produced no output at all and score 0, marked incomplete.</p>
+<p><strong>One run proves little.</strong> The same setup scored 93, 93, 57, 40 and 92 on five runs. Rankings use the median run per model, and single-run results are flagged as such.</p>
+<p><strong>Measuring memory on Apple silicon.</strong> The usual process memory figure misses most of the GPU allocation, so it badly understates usage. The server's own memory gauge was used instead, and the sampler had to find the server again after every restart.</p>
+<p><strong>Sandboxes that look like outages.</strong> One coding agent's network sandbox silently blocked the local inference server, which then looked as if it were down. The same request outside the sandbox worked.</p>
+<p><strong>Costs are not reported the same way.</strong> Some providers report the cost per request, others only token usage, which the harness converts with its own price list. Costs in the CSV are what was reported or estimated for that run; missing costs are left blank, not guessed.</p>
+<h2>Evidence tags</h2>
+<p>Every run carries one tag, also in the CSV:</p>
+<div class="tw"><table class="mt"><thead><tr><th>Tag</th><th>Meaning</th><th>Used in rankings</th></tr></thead><tbody><tr><td><code>verified-clean</code></td><td>Verified that the agent could not see the expected answer</td><td>Yes</td></tr><tr><td><code>pre-answer-key</code></td><td>Run before the answer notes existed</td><td>Yes</td></tr><tr><td><code>answer-key-assisted</code></td><td>The agent could see the expected answer</td><td>No</td></tr><tr><td><code>instruction-validity-unknown</code></td><td>Harness instruction loading was not checked</td><td>No</td></tr></tbody></table></div>
+<p>Rankings also exclude incomplete runs.</p>
+<h2>Limits</h2>
+<ul class="learn"><li>One task, one meeting, in French. Results say how models handle this kind of work, not which model is best in general.</li><li>Few runs per setup: many cloud configurations were run once or twice.</li><li>Settings differ across runs (effort, output limits, sampling, harness versions). Two cells are compared only when those differences are stated.</li><li>Cloud sampling settings and memory are not visible, and are recorded as unknown.</li></ul>
+<h2>The data: runs.csv</h2>
+<p>One row per run, 204 rows.</p>
+<div class="tw"><table class="mt"><thead><tr><th>Column</th><th>Meaning</th></tr></thead><tbody><tr><td><code>run</code></td><td>Run number, in chronological order</td></tr><tr><td><code>model</code></td><td>Model, with quantization or packaging variant after "·"</td></tr><tr><td><code>family</code></td><td>Model family used for the rankings</td></tr><tr><td><code>where</code></td><td><code>self-hosted</code> or <code>cloud</code></td></tr><tr><td><code>harness</code></td><td>Agent program; OpenCode before run 92 is OpenCode 1, from run 92 OpenCode 2 unless named</td></tr><tr><td><code>evidence</code></td><td>Evidence tag, see above</td></tr><tr><td><code>completed</code></td><td><code>no</code> if the run stalled, was aborted or produced no usable output</td></tr><tr><td><code>ranked</code></td><td><code>yes</code> if counted in the rankings (completed and clean or pre-answer-key)</td></tr><tr><td><code>local_pick</code></td><td><code>yes</code> for the runs of the recommended local setup (plain Qwen3.8 27B, 4-bit, extra-high, Pi)</td></tr><tr><td><code>score</code></td><td>ScoreV2 total</td></tr><tr><td><code>quality</code>, <code>judgment</code></td><td>The two halves, out of 50 each</td></tr><tr><td><code>who_does_what</code>, <code>relationship</code>, <code>biography</code>, <code>restraint</code></td><td>Judgment items, out of 20, 10, 15 and 5</td></tr><tr><td><code>penalty</code>, <code>penalty_detail</code></td><td>Points subtracted and why</td></tr><tr><td><code>seconds</code></td><td>Wall time of the run, blank when not recorded</td></tr><tr><td><code>cost_usd</code></td><td>Reported or estimated cost of the run, blank when unknown or self-hosted</td></tr></tbody></table></div>
+</main></div></body></html>

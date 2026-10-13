@@ -1,0 +1,205 @@
+run,model,family,where,harness,evidence,completed,ranked,local_pick,score,quality,judgment,who_does_what,relationship,biography,restraint,penalty,penalty_detail,seconds,cost_usd
+1,Qwen3.6 27B 8-bit KV,Qwen3.6 27B,self-hosted,Pi,pre-answer-key,yes,yes,,60,42,18,0,0,13,5,0,,,
+2,Gemma-4 26B,Gemma-4 26B,self-hosted,Pi,pre-answer-key,yes,yes,,2,25,17,0,0,12,5,40,history destroyed (-40),,
+3,Gemma-4 26B,Gemma-4 26B,self-hosted,Bionic,instruction-validity-unknown,no,no,,52,33,19,0,3,11,5,0,,,
+4,Qwen3.6 35B-A3B VL,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,33,46,7,0,0,7,0,20,invented biography (-20),,
+5,Gemma-4 26B,Gemma-4 26B,self-hosted,OpenCode 1,verified-clean,yes,yes,,-24,24,12,0,0,7,5,60,history destroyed (-40); invented biography (-20),,
+6,Gemma-4 26B,Gemma-4 26B,self-hosted,OpenCode 1,verified-clean,yes,yes,,-17,27,16,0,7,4,5,60,history destroyed (-40); invented biography (-20),,
+7,Gemma-4 26B,Gemma-4 26B,self-hosted,Goose,instruction-validity-unknown,yes,no,,21,33,8,0,0,8,0,20,invented biography (-20),,
+8,Gemma-4 26B,Gemma-4 26B,self-hosted,Pi,pre-answer-key,yes,yes,,32,23,29,12,7,5,5,20,invented biography (-20),,
+9,Ornith 35B,Ornith 35B,self-hosted,Pi,pre-answer-key,yes,yes,,38,32,26,12,0,9,5,20,invented biography (-20),,
+10,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,Pi,pre-answer-key,yes,yes,,20,31,9,0,0,9,0,20,invented biography (-20),,
+11,Qwen3.6 27B 8-bit KV,Qwen3.6 27B,self-hosted,Pi,answer-key-assisted,yes,no,,66,46,20,0,0,15,5,0,,,
+12,Qwen3.6 27B 8-bit KV,Qwen3.6 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,66,48,18,0,0,13,5,0,,660,
+13,Qwen3.6 35B-A3B VL,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,27,31,16,0,0,11,5,20,invented biography (-20),120,
+14,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,36,30,16,0,0,11,5,10,partly invented biography (-10),135,
+15,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,31,37,14,0,0,9,5,20,invented biography (-20),180,
+16,Qwen3.6 35B-A3B VL,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,18,29,9,0,0,9,0,20,invented biography (-20),,
+17,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,40,46,14,0,0,9,5,20,invented biography (-20),,
+18,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,42,45,17,0,3,9,5,20,invented biography (-20),,
+19,Ornith 35B,Ornith 35B,self-hosted,OpenCode 1,verified-clean,yes,yes,,39,47,12,0,0,7,5,20,invented biography (-20),,
+20,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,little-coder,instruction-validity-unknown,yes,no,,37,43,14,0,0,9,5,20,invented biography (-20),,
+21,Gemma-4 26B Huihui,Gemma-4 26B Huihui,self-hosted,OpenCode 1,verified-clean,yes,yes,,22,14,18,0,7,6,5,10,partly invented biography (-10),,
+22,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,little-coder,instruction-validity-unknown,no,no,,39,35,14,0,0,9,5,10,partly invented biography (-10),,
+23,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Goose,instruction-validity-unknown,yes,no,,18,26,12,3,0,9,0,20,invented biography (-20),,
+24,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Goose,instruction-validity-unknown,no,no,,32,20,12,0,0,12,0,0,,,
+25,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Junie,instruction-validity-unknown,no,no,,33,34,19,5,0,9,5,20,invented biography (-20),,
+26,Gemma-4 31B,Gemma-4 31B,self-hosted,Pi,answer-key-assisted,yes,no,,53,34,19,0,0,14,5,0,,,
+27,Polaris 27B,Polaris 27B,self-hosted,Pi,answer-key-assisted,yes,no,,55,35,20,0,0,15,5,0,,,
+28,ThinkingCap 27B,ThinkingCap 27B,self-hosted,Pi,answer-key-assisted,yes,no,,43,37,16,0,0,11,5,10,partly invented biography (-10),,
+29,Qwen3.6 35B-A3B oQ5/6,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,44,38,16,0,0,11,5,10,partly invented biography (-10),,
+30,Qwen3.6 35B-A3B oQ5/6,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,35,39,16,0,0,11,5,20,invented biography (-20),,
+31,Qwen3.6 35B Heretic,Qwen3.6 35B Heretic,self-hosted,Pi,answer-key-assisted,yes,no,,20,29,11,0,0,11,0,20,invented biography (-20),,
+32,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,33,37,16,0,0,11,5,20,invented biography (-20),,
+33,Ornith 35B,Ornith 35B,self-hosted,Pi,answer-key-assisted,yes,no,,27,38,9,0,0,9,0,20,invented biography (-20),,
+34,Qwen3.6 27B 8-bit KV,Qwen3.6 27B,self-hosted,Pi,answer-key-assisted,yes,no,,41,42,19,3,0,11,5,20,invented biography (-20),,
+35,Qwen3.6 35B-A3B oQ5/6,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,33,37,16,0,0,11,5,20,invented biography (-20),,
+36,Ornith 35B,Ornith 35B,self-hosted,Pi,answer-key-assisted,yes,no,,59,43,36,12,10,9,5,20,invented biography (-20),,
+37,Qwen3.6 35B-A3B oQ5/6,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,32,38,14,0,3,11,0,20,invented biography (-20),,
+38,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,53,32,31,12,3,11,5,10,partly invented biography (-10),,
+39,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,32,41,11,0,0,11,0,20,invented biography (-20),,
+40,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,20,29,11,0,0,11,0,20,invented biography (-20),,
+41,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,answer-key-assisted,yes,no,,32,41,11,0,0,11,0,20,invented biography (-20),,
+42,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,51,45,26,12,0,9,5,20,invented biography (-20),,
+43,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,little-coder,instruction-validity-unknown,yes,no,,46,44,12,0,0,7,5,10,partly invented biography (-10),,
+44,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,40,46,14,0,0,9,5,20,invented biography (-20),,
+45,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,41,46,15,0,3,7,5,20,invented biography (-20),,
+46,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,33,41,12,3,0,9,0,20,invented biography (-20),,
+47,ThinkingCap 27B,ThinkingCap 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,67,46,21,3,0,13,5,0,,240,
+48,Qwen3.6 27B 8-bit KV,Qwen3.6 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,48,46,12,0,0,7,5,10,partly invented biography (-10),660,
+49,Qwen3.6 27B,Qwen3.6 27B,self-hosted,Pi,answer-key-assisted,yes,no,,51,47,14,0,0,9,5,10,partly invented biography (-10),660,
+50,ThinkingCap 27B,ThinkingCap 27B,self-hosted,Pi,answer-key-assisted,yes,no,,47,41,16,0,0,11,5,10,partly invented biography (-10),540,
+51,Polaris 27B,Polaris 27B,self-hosted,Pi,answer-key-assisted,yes,no,,41,42,19,0,3,11,5,20,invented biography (-20),720,
+52,Polaris 27B,Polaris 27B,self-hosted,Pi,answer-key-assisted,yes,no,,52,46,16,0,0,11,5,10,partly invented biography (-10),480,
+53,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,78,43,35,12,3,15,5,0,,176,
+54,Polaris 27B,Polaris 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,57,41,16,0,0,11,5,0,,507,
+55,Qwen3.6 27B,Qwen3.6 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,62,46,16,0,0,11,5,0,,382,
+56,ThinkingCap 27B,ThinkingCap 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,57,41,16,0,0,11,5,0,,311,
+57,Qwen3.6 35B-A3B VL,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,52,46,26,12,0,9,5,20,invented biography (-20),187,
+58,Qwen3.6 35B-A3B GGUF,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,28,41,17,0,3,9,5,30,invented biography (-20); minor history loss (-10),722,
+59,Qwen3.5 35B Hermes,Qwen3.5 35B Hermes,self-hosted,Hermes,verified-clean,yes,yes,,-10,36,14,0,0,9,5,60,invented biography (-20); history destroyed (-40),323,
+60,Polaris 27B,Polaris 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,40,46,14,0,0,9,5,20,invented biography (-20),676,
+61,Qwen3.6 27B,Qwen3.6 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,50,39,11,0,0,11,0,0,,416,
+62,Qwen3.6 27B,Qwen3.6 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,25,38,7,0,0,7,0,20,invented biography (-20),621,
+63,Qwen3.6 27B,Qwen3.6 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,65,46,19,3,0,11,5,0,,597,
+64,Qwen3.6 27B,Qwen3.6 27B,self-hosted,OpenCode 1,verified-clean,yes,yes,,64,45,19,3,0,11,5,0,,552,
+65,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,40,45,15,0,3,7,5,20,invented biography (-20),163,
+66,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,59,41,18,0,0,13,5,0,,170,
+67,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,65,47,18,0,0,13,5,0,,178,
+68,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,no,no,,27,37,10,0,0,5,5,20,invented biography (-20),373,
+69,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,42,46,16,3,3,5,5,20,invented biography (-20),205,
+70,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenInterpreter,instruction-validity-unknown,no,no,,0,0,0,0,0,0,0,0,,135,
+71,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Hermes,verified-clean,no,no,,47,40,27,5,10,7,5,20,invented biography (-20),958,
+72,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Kimi Code,verified-clean,no,no,,62,38,24,3,3,13,5,0,,109,
+73,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,little-coder,verified-clean,no,no,,28,36,12,0,0,7,5,20,invented biography (-20),129,
+74,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,little-coder,verified-clean,no,no,,32,35,17,0,3,9,5,20,invented biography (-20),101,
+75,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,no,no,,30,33,7,0,0,7,0,10,partly invented biography (-10),151,
+76,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,no,no,,16,13,13,0,3,5,5,10,partly invented biography (-10),543,
+77,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Kimi Code,verified-clean,no,no,,19,27,12,5,0,7,0,20,invented biography (-20),142,
+78,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 1,verified-clean,yes,yes,,38,40,18,5,3,5,5,20,invented biography (-20),173,
+79,Qwen3.8 27B,Qwen3.8 27B,self-hosted,OpenCode 1,verified-clean,no,no,,0,0,0,0,0,0,0,0,,915,
+80,Qwen3.8 27B,Qwen3.8 27B,self-hosted,OpenCode 1,verified-clean,no,no,,0,0,0,0,0,0,0,0,,,
+81,Qwen3.8 27B,Qwen3.8 27B,self-hosted,OpenCode 1,verified-clean,no,no,,0,0,0,0,0,0,0,0,,514,
+82,Qwen3.8 27B,Qwen3.8 27B,self-hosted,OpenCode 1,verified-clean,no,no,,0,0,0,0,0,0,0,0,,1502,
+83,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,DSH,verified-clean,no,no,,60,43,37,17,10,5,5,20,invented biography (-20),250,
+84,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,DSH,verified-clean,yes,yes,,63,47,26,12,0,9,5,10,partly invented biography (-10),121,
+85,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,no,no,,0,0,0,0,0,0,0,0,,476,
+86,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,no,no,,0,0,0,0,0,0,0,0,,484,
+87,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,yes,yes,,5,41,14,0,0,9,5,50,partly invented biography (-10); history destroyed (-40),162,
+88,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,yes,yes,,77,45,32,15,3,9,5,0,,105,
+89,Qwen3.8 27B,Qwen3.8 27B,self-hosted,Chad,verified-clean,no,no,,61,43,18,0,0,13,5,0,,1226,
+90,DeepSeek V4 Flash,DeepSeek V4 Flash,cloud,OpenCode 1,verified-clean,yes,yes,,63,47,16,0,0,11,5,0,,508,
+91,Kimi K3,Kimi K3,cloud,OpenCode 1,verified-clean,no,no,,0,0,0,0,0,0,0,0,,600,
+92,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,OpenCode 2,verified-clean,yes,yes,,96,48,48,20,10,13,5,0,,88,0.054
+93,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,Pi,verified-clean,yes,yes,,94,48,46,20,10,11,5,0,,143,0.041
+94,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,OpenCode 2,verified-clean,yes,yes,,67,48,19,3,0,11,5,0,,371,0.103
+95,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,Pi,verified-clean,yes,yes,,41,43,18,3,3,7,5,20,invented biography (-20),121,0.057
+96,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,Pi,verified-clean,yes,yes,,96,48,48,20,10,13,5,0,,152,0.062
+97,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,OpenCode 2,verified-clean,yes,yes,,83,49,34,8,10,11,5,0,,165,0.063
+98,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,Pi,verified-clean,yes,yes,,68,47,21,3,0,13,5,0,,117,0.051
+99,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,Pi,verified-clean,yes,yes,,93,47,46,20,10,11,5,0,,176,0.052
+100,GLM 5.3,GLM 5.3,cloud,Pi,verified-clean,yes,yes,,59,41,18,0,0,13,5,0,,68,0.103
+101,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,Pi,verified-clean,yes,yes,,67,48,19,3,0,11,5,0,,84,0.058
+102,DeepSeek V4.1 Flash,DeepSeek V4.1 Flash,cloud,OpenCode 2,verified-clean,yes,yes,,70,48,32,8,10,9,5,10,partly invented biography (-10),81,0.062
+103,Qwen3.8 27B,Qwen3.8 27B,cloud,Pi,verified-clean,yes,yes,,69,49,20,3,3,9,5,0,,836,0.185
+104,Qwen3.8 27B,Qwen3.8 27B,cloud,OpenCode 2,verified-clean,yes,yes,,69,48,21,0,3,13,5,0,,683,0.188
+105,Qwen3.8 Flash Next,Qwen3.8 Flash Next,cloud,OpenCode 2,verified-clean,yes,yes,,67,46,21,3,0,13,5,0,,113,0.085
+106,GPT-6 Luna,GPT-6 Luna,cloud,OpenCode 2,verified-clean,yes,yes,,80,44,36,8,10,13,5,0,,63,0.017
+107,GPT-6.1 Sol,GPT-6.1 Sol,cloud,OpenCode 2,verified-clean,yes,yes,,99,49,50,20,10,15,5,0,,123,0.246
+108,GPT-6 Luna,GPT-6 Luna,cloud,OpenCode 2,verified-clean,yes,yes,,93,48,45,17,10,13,5,0,,266,0.036
+109,Claude Sonnet 5.5,Claude Sonnet 5.5,cloud,OpenCode 2,verified-clean,yes,yes,,84,50,44,20,10,9,5,10,partly invented biography (-10),81,0.324
+110,MiMo V2.6 Pro,MiMo V2.6 Pro,cloud,OpenCode 2,verified-clean,no,no,,78,33,45,20,7,13,5,0,,900,0.078
+111,Kimi K3,Kimi K3,cloud,OpenCode 2,verified-clean,yes,yes,,84,48,36,8,10,13,5,0,,75,0.327
+112,Hemmingway-1,Hemmingway-1,self-hosted,OpenCode 2,verified-clean,yes,yes,,61.5,47,14.5,1.5,0,13,0,0,,873,
+113,Mistral Large 4,Mistral Large 4,cloud,OpenCode 2,verified-clean,yes,yes,,36,47,9,0,0,9,0,20,invented biography (-20),299,0.214
+114,Mistral Large 4,Mistral Large 4,cloud,OpenCode 2,verified-clean,yes,yes,,36,47,9,0,0,9,0,20,invented biography (-20),328,0.261
+115,Qwen3.8 Flash Next,Qwen3.8 Flash Next,cloud,OpenCode 2,verified-clean,yes,yes,,91,49,42,17,10,13,2,0,,862,0.098
+116,GPT-6 Luna,GPT-6 Luna,cloud,Pi,verified-clean,yes,yes,,95,47,48,20,10,13,5,0,,339,0.037
+117,Qwen3.6 35B Heretic,Qwen3.6 35B Heretic,self-hosted,OpenCode 2,verified-clean,yes,yes,,28,36,12,3,0,9,0,20,invented biography (-20),235,
+118,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 2,verified-clean,no,no,,0,0,0,0,0,0,0,0,,216,
+119,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 2,verified-clean,no,no,,0,0,0,0,0,0,0,0,,307,
+120,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 2,verified-clean,yes,yes,,15,28,7,0,3,4,0,20,invented biography (-20),239,
+121,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,OpenCode 2,verified-clean,yes,yes,,38,33,15,0,3,7,5,10,partly invented biography (-10),204,
+122,Qwen3.6 35B Heretic,Qwen3.6 35B Heretic,self-hosted,OpenCode 2,verified-clean,no,no,,0,0,0,0,0,0,0,0,,82,
+123,Qwen3.6 35B Heretic,Qwen3.6 35B Heretic,self-hosted,OpenCode 2,verified-clean,yes,yes,,-18,33,9,0,0,9,0,60,history destroyed (-40); invented biography (-20),320,
+124,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,yes,yes,,61,47,14,0,0,9,5,0,,74,
+125,Qwen3.6 35B-A3B,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,yes,yes,,36,42,14,0,0,9,5,20,invented biography (-20),439,
+126,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,yes,yes,,61,47,14,0,0,9,5,0,,108,
+127,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,OpenCode 2,verified-clean,yes,yes,,16,37,9,0,0,9,0,30,invented biography (-20); minor history loss (-10),159,
+128,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,yes,yes,,35,41,14,0,0,9,5,20,invented biography (-20),81,
+129,Qwen3.6 35B-A3B XL,Qwen3.6 35B-A3B,self-hosted,OpenCode 2,verified-clean,yes,yes,,21,32,9,0,0,9,0,20,invented biography (-20),155,
+130,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,64,48,16,0,0,11,5,0,,300,
+131,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,73,47,26,12,0,9,5,0,,296,
+132,Hemmingway-1,Hemmingway-1,self-hosted,OpenCode 2,verified-clean,no,no,,0,0,0,0,0,0,0,0,,900,
+133,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,63,47,16,0,0,11,5,0,,315,
+134,Qwen3.8 27B Huihui,Qwen3.8 27B Huihui,self-hosted,Pi,verified-clean,yes,yes,,68,49,19,3,0,11,5,0,,384,
+135,Qwen3.8 27B Huihui,Qwen3.8 27B Huihui,self-hosted,Pi,verified-clean,yes,yes,,40,38,12,3,0,9,0,10,partly invented biography (-10),402,
+136,Qwen3.8 27B Huihui,Qwen3.8 27B Huihui,self-hosted,Pi,verified-clean,yes,yes,,64,48,16,0,0,11,5,0,,505,
+137,Mistral Large 4,Mistral Large 4,cloud,Pi,verified-clean,yes,yes,,61,47,14,0,0,9,5,0,,312,0.25
+138,Mistral Large 4,Mistral Large 4,cloud,Pi,verified-clean,yes,yes,,39,47,12,0,0,7,5,20,invented biography (-20),310,0.22
+139,Qwen3.8 Flash Next,Qwen3.8 Flash Next,cloud,Pi,verified-clean,yes,yes,,68,49,19,3,0,11,5,0,,789,0.278
+140,Qwen3.8 Flash Next,Qwen3.8 Flash Next,cloud,Pi,verified-clean,yes,yes,,62,49,13,0,0,13,0,0,,149,0.113
+141,Qwen3.8 Flash Next,Qwen3.8 Flash Next,cloud,OpenCode 1,verified-clean,yes,yes,,67,48,19,3,0,11,5,0,,94,0.0673
+142,Claude Sonnet 5.5,Claude Sonnet 5.5,cloud,Pi,verified-clean,yes,yes,,95,49,46,20,10,11,5,0,,58,0.25
+143,Claude Sonnet 5.5,Claude Sonnet 5.5,cloud,OpenCode 1,verified-clean,yes,yes,,68,49,19,3,0,11,5,0,,48,0.363
+144,GPT-6 Luna,GPT-6 Luna,cloud,Pi,verified-clean,yes,yes,,96,48,48,20,10,13,5,0,,291,0.0326
+145,GPT-6 Luna,GPT-6 Luna,cloud,OpenCode 1,verified-clean,yes,yes,,97,49,48,20,10,13,5,0,,304,0.0414
+146,Claude Opus 5.5,Claude Opus 5.5,cloud,Pi,verified-clean,yes,yes,,99,49,50,20,10,15,5,0,,332,0.855
+147,Qwen3.8 27B,Qwen3.8 27B,cloud,OpenCode 1,verified-clean,no,no,,0,0,0,0,0,0,0,0,,1200,0.161
+148,Qwen3.8 27B,Qwen3.8 27B,cloud,Pi,verified-clean,yes,yes,,89,48,41,17,10,9,5,0,,670,0.145
+149,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,76,47,29,5,10,9,5,0,,354,
+150,Qwen3.8 27B ThinkingCap,Qwen3.8 27B ThinkingCap,self-hosted,Pi,verified-clean,yes,yes,,66,48,18,0,0,13,5,0,,452,
+151,Hemmingway-1,Hemmingway-1,self-hosted,OpenCode 1,verified-clean,yes,yes,,61,47,14,0,0,9,5,0,,902,
+152,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,57,40,17,3,0,9,5,0,,358,
+153,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,90,49,41,17,10,9,5,0,,748,
+154,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,75,49,36,17,10,9,0,10,minor history loss (-10),608,
+155,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,91,48,43,17,10,11,5,0,,648,
+156,Hemmingway-1,Hemmingway-1,self-hosted,Pi + custom prompt,verified-clean,yes,yes,,62,48,14,0,0,9,5,0,,417,
+157,Hemmingway-1,Hemmingway-1,self-hosted,Pi + custom prompt,verified-clean,yes,yes,,43,49,14,0,0,9,5,20,invented biography (-20),564,
+158,Qwen3.8 Flash Next,Qwen3.8 Flash Next,cloud,Pi + custom prompt,verified-clean,yes,yes,,57,48,19,3,0,11,5,10,partly invented biography (-10),312,0.1075
+159,Qwen3.8 Flash Next,Qwen3.8 Flash Next,cloud,Pi + custom prompt,verified-clean,yes,yes,,45,48,17,3,0,9,5,20,invented biography (-20),294,0.0999
+160,Claude Haiku 5.5,Claude Haiku 5.5,cloud,Pi,verified-clean,yes,yes,,71,50,21,3,0,13,5,0,,221,0.0372
+161,Qwen3.8 27B Cold Fusion,Qwen3.8 27B Cold Fusion,self-hosted,Pi,verified-clean,no,no,,38,24,14,0,0,9,5,0,,172,
+162,Qwen3.8 27B Huihui,Qwen3.8 27B Huihui,self-hosted,Pi,verified-clean,yes,yes,,93.5,49,44.5,18.5,10,11,5,0,,608,
+163,Qwen3.8 27B Huihui,Qwen3.8 27B Huihui,self-hosted,Pi,verified-clean,yes,yes,,64,48,16,0,0,11,5,0,,584,
+164,Qwen3.8 27B · UD 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,,65,49,16,0,0,11,5,0,,728,
+165,Qwen3.8 27B pi-4bit,Qwen3.8 27B pi-4bit,self-hosted,Pi,verified-clean,yes,yes,,64,48,16,0,0,11,5,0,,422,
+166,Qwen3.8 27B ThinkingCap,Qwen3.8 27B ThinkingCap,self-hosted,Pi,verified-clean,no,no,,0,0,0,0,0,0,0,0,,1200,
+167,Qwen3.8 27B ThinkingCap,Qwen3.8 27B ThinkingCap,self-hosted,Pi,verified-clean,yes,yes,,67,49,18,0,0,13,5,0,,459,
+168,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,90,49,41,20,10,9,2,0,,1557,
+169,Swift (Qwen3.8 27B),Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,96,50,46,20,10,11,5,0,,471,
+170,Swift (Qwen3.8 27B),Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,63,49,14,0,0,9,5,0,,588,
+171,Swift (Qwen3.8 27B),Swift (Qwen3.8 27B),self-hosted,OpenCode 1,verified-clean,yes,yes,,60,49,11,0,0,11,0,0,,662,
+172,Swift (Qwen3.8 27B),Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,63,49,14,0,0,9,5,0,,692,
+173,Swift (Qwen3.8 27B),Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,73,49,24,3,3,13,5,0,,361,
+174,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,62,48,14,0,0,9,5,0,,524,
+175,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,69,49,20,3,3,9,5,0,,542,
+176,Qwen3.8 27B · UD 4-bit,Qwen3.8 27B,self-hosted,Pi,instruction-validity-unknown,no,no,,0,0,0,0,0,0,0,0,,1800,
+177,Swift (Qwen3.8 27B),Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,68,49,19,3,0,11,5,0,,771,
+178,Swift (Qwen3.8 27B),Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,66,49,17,3,0,9,5,0,,1426,
+179,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,57,46,11,0,0,9,2,0,,1363,
+180,Hemmingway-1,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,91,48,43,17,10,11,5,0,,1439,
+181,Hemmingway-1 · GGUF,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,61,49,12,3,0,9,0,0,,389,
+182,Hemmingway-1 · GGUF,Hemmingway-1,self-hosted,Pi,verified-clean,yes,yes,,85,49,36,17,10,9,0,0,,1195,
+183,Swift 1.5 (Qwen3.8 27B),Swift 1.5 (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,89,48,41,17,10,9,5,0,,453,
+184,Swift 1.5 (Qwen3.8 27B),Swift 1.5 (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,63,48,15,0,0,13,2,0,,506,
+185,Swift 1.5 (Qwen3.8 27B),Swift 1.5 (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,70,49,21,3,0,13,5,0,,556,
+186,Swift 1.5 (Qwen3.8 27B),Swift 1.5 (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,70,49,21,3,0,13,5,0,,665,
+187,Swift 1.5 (Qwen3.8 27B) · Q6_K,Swift 1.5 (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,64,46,18,0,0,13,5,0,,296,
+188,Swift 1.5 (Qwen3.8 27B) · Q6_K,Swift 1.5 (Qwen3.8 27B),self-hosted,Pi,verified-clean,no,no,,0,0,0,0,0,0,0,0,,41,
+189,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,,65,48,17,3,0,9,5,0,,227,
+190,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,yes,96,48,48,20,10,13,5,0,,1158,
+191,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,yes,86,48,38,17,10,11,0,0,,907,
+192,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,yes,97,49,48,20,10,13,5,0,,849,
+193,Qwen3.8 27B · Q6_K,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,,65,49,16,0,0,11,5,0,,316,
+194,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,no,no,yes,0,0,0,0,0,0,0,0,,404,
+195,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,instruction-validity-unknown,no,no,,0,0,0,0,0,0,0,0,,0,
+196,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,yes,94,48,46,20,10,11,5,0,,838,
+197,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,yes,91,48,43,20,10,13,0,0,,1005,
+198,Qwen3.8 27B · Splash 4-bit,Qwen3.8 27B,self-hosted,Pi,verified-clean,yes,yes,yes,96,48,48,20,10,13,5,0,,841,
+199,Swift (Qwen3.8 27B) · GGUF,Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,93,48,45,17,10,13,5,0,,637,
+200,Qwen3.6 35B-A3B Splash,Qwen3.6 35B-A3B,self-hosted,Pi,verified-clean,yes,yes,,55,42,13,0,0,13,0,0,,179,
+201,Swift (Qwen3.8 27B) · GGUF,Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,93,47,46,20,10,11,5,0,,537,
+202,Swift (Qwen3.8 27B) · GGUF,Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,57,46,11,0,0,11,0,0,,513,
+203,Swift (Qwen3.8 27B) · GGUF,Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,40,48,12,0,3,9,0,20,invented biography (-20),609,
+204,Swift (Qwen3.8 27B) · GGUF,Swift (Qwen3.8 27B),self-hosted,Pi,verified-clean,yes,yes,,92,49,43,17,10,11,5,0,,648,
