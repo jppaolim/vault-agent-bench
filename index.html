@@ -200,7 +200,7 @@ tr:last-child td{border-bottom:0}
     <h2>Every model, ranked</h2>
     <div class="thesis"><p><strong>One run proves little.</strong> The same Swift setup scored <strong>93</strong>, <strong>93</strong>, <strong>57</strong>, <strong>40</strong>, then <strong>92</strong>. Models are ranked by their <strong>median</strong> run, with the <strong>worst</strong> run beside it.</p></div>
     <div class="brief" style="margin-top:18px">
-      <div><b>Finished</b><p>Runs that produced usable output, out of all runs tried. Runs that stalled or wrote nothing are not scored, so a low finish rate is a warning on its own.</p></div>
+      <div><b>Finished</b><p>Runs that produced usable output, out of all runs tried. Runs were stopped at a time cap: 20 minutes at first, later raised to 25–30. Runs that stalled, hit the cap or wrote nothing are not scored, so a low finish rate is a warning on its own.</p></div>
       <div><b>Median · Worst</b><p>The middle and the lowest score of a model's finished runs. Q · J = median quality and judgment, out of 50 each.</p></div>
       <div><b>Harness</b><p>The agent program that drives the model. Pi and OpenCode were used most; Pi + custom prompt: Pi with my own system prompt.</p></div>
       <div><b>Where it ran</b><p>Self-hosted: my laptop or home server. Splash is a faster inference runtime on the same home server. Cloud: a provider's API.</p></div>
@@ -208,7 +208,7 @@ tr:last-child td{border-bottom:0}
     </div>
     <div class="legend"><span><i class="h-pi"></i>Pi</span><span><i class="h-o1"></i>OpenCode 1</span><span><i class="h-oc"></i>OpenCode 2</span><span><i class="h-ot"></i>other harness</span></div>
     <div class="tw"><table class="rank" id="rank"></table></div>
-    <p class="small col">Gaps under about 20 points are noise. Models with no finished run are listed at the bottom. Quantization and packaging variants are merged into one row; fine-tuned derivatives keep their own. Gray edge: cloud. Green edge: my local pick.</p>
+    <p class="small col">Gaps under about 20 points are noise. Models with no finished run are listed at the bottom. Self-hosted Qwen3.8 27B is split by inference server: OMLX (early runs, mostly on a harness that stalled; one run used Chad's built-in MLX runtime) and Splash (my local pick). Quantization and packaging variants are merged into one row; fine-tuned derivatives keep their own. Gray edge: cloud. Green edge: my local pick.</p>
   </section>
 
   <section>
@@ -272,7 +272,9 @@ const hcls=h=>h==="Pi"?"h-pi":h==="OpenCode 2"?"h-oc":h==="OpenCode 1"?"h-o1":"h
 const med=a=>{const b=a.slice().sort((x,y)=>x-y),k=b.length>>1;return b.length%2?b[k]:(b[k-1]+b[k])/2};
 const f1=v=>v==null?"—":(Math.round(v*10)/10).toString().replace("-","−");
 const fam=m=>/^Qwen3\.6 35B-A3B/.test(m)?"Qwen3.6 35B-A3B":/^Qwen3\.6 27B/.test(m)?"Qwen3.6 27B":m.replace(/ · .*/,"");
-const LOCALPICK="Qwen3.8 27B";
+const LOCALPICK="Qwen3.8 27B · Splash";
+// self-hosted Qwen3.8 27B is split by inference runtime: Splash (runs 189+) vs OMLX/MLX (earlier)
+const famR=r=>{const f=fam(r.m);return r.self&&f==="Qwen3.8 27B"?f+(r.n>=189?" · Splash":" · OMLX"):f};
 const fair=r=>r.ev==="clean"||r.ev==="pre";
 const pass=r=>fair(r)&&!r.inc;
 const FAIR=ALL.filter(pass);
@@ -337,11 +339,12 @@ function cells(s,big){
 }
 function rankTable(){
   const g={};
-  ALL.filter(fair).forEach(r=>{const k=fam(r.m)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
+  ALL.filter(fair).forEach(r=>{const k=famR(r)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
   const rows=Object.entries(g).map(([k,tried])=>{
     const rs=tried.filter(r=>!r.inc);
     const [f,c]=k.split("|");
-    const variants=[...new Set(rs.map(r=>r.m))].filter(m=>m!==f).map(m=>m.replace(f,"").replace(/^ · /,"").trim()).filter(Boolean);
+    const base=fam(tried[0].m);
+    const variants=[...new Set(tried.map(r=>r.m))].filter(m=>m!==base).map(m=>m.replace(base,"").replace(/^ · /,"").replace(/^Splash /,"").trim()).filter(Boolean);
     const where=c==="cloud"?"cloud":"self-hosted";
     return {f,c,rs,n:tried.length,where,variants,all:stat(rs),o1:stat(rs.filter(r=>r.h==="OpenCode 1")),o2:stat(rs.filter(r=>r.h==="OpenCode 2")),pi:stat(rs.filter(r=>r.h==="Pi"))};
   }).sort((a,b)=>(b.all.med??-999)-(a.all.med??-999)||(b.all.worst??-999)-(a.all.worst??-999));
@@ -361,10 +364,10 @@ const binOf=r=>{const m=r.sec/60;return m<2?0:m<5?1:m<15?2:3};
 document.getElementById("costLegend").innerHTML=BINS.map(b=>`<span><i style="background:var(${b[1]})"></i>${b[0]}</span>`).join("")+`<span><i class="hollow" style="border-color:var(--accent)"></i>my local pick: Qwen3.8 27B, extra-high</span>`;
 function medianRuns(){
   const g={};
-  FAIR.filter(r=>r.sec!=null&&(r.self||r.cost!=null)).forEach(r=>{const k=fam(r.m)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
+  FAIR.filter(r=>r.sec!=null&&(r.self||r.cost!=null)).forEach(r=>{const k=famR(r)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
   return Object.entries(g).map(([k,rs])=>{const md=med(rs.map(r=>r.s));
     const r=rs.slice().sort((a,b)=>Math.abs(a.s-md)-Math.abs(b.s-md)||a.s-b.s)[0];
-    return Object.assign({},r,{lab:k.split("|")[0]+(k==="Qwen3.8 27B|self"?" · local pick":k==="Qwen3.8 27B|cloud"?" (cloud)":"")})});
+    return Object.assign({},r,{lab:k.split("|")[0]+(k==="Qwen3.8 27B · Splash|self"?" · local pick":k==="Qwen3.8 27B|cloud"?" (cloud)":"")})});
 }
 function spread(ls,gap,lo,hi){ls.sort((a,b)=>a.y-b.y);for(let i=1;i<ls.length;i++)if(ls[i].y-ls[i-1].y<gap)ls[i].y=ls[i-1].y+gap;
   const over=ls.length?ls[ls.length-1].y-hi:0;if(over>0)for(let i=ls.length-1;i>=0;i--){ls[i].y-=over;if(i&&ls[i].y-ls[i-1].y>=gap)break;if(i)ls[i-1].y=Math.min(ls[i-1].y,ls[i].y-gap)}}

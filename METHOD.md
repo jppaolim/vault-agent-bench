@@ -71,7 +71,9 @@ errors. It was retired; all 204 runs were regraded with ScoreV2, and only ScoreV
 - Before a new harness or provider was used for a numbered run, a separate pilot checked that it
   really found the vault's instructions and skill, and that its read, search, write and edit tools
   worked. Pilots are not numbered runs.
-- The full run was timed. For self-hosted models, memory was sampled every second.
+- The full run was timed, under a time cap: 20 minutes at first, later raised to 25–30 minutes.
+  A run that hit the cap counts as not finished. For self-hosted models, memory was sampled every
+  second.
 - After each run, the complete diff was checked: were the required files written, was the Journal
   preserved, were reference files left alone, did the agent stay inside the vault copy.
 
