@@ -146,7 +146,7 @@ tr:last-child td{border-bottom:0}
 #task h3{margin:22px 0 6px;font-family:var(--f-display);font-size:1.15rem}
 #zoom{margin-top:6px;width:100%}#zoom svg{display:block;width:100%}#zoom text{fill:var(--ink-3);font-family:var(--f-mono);font-size:11px}#zoom text.pl{fill:var(--ink);font-weight:600}
 .zoomwrap h3{font-family:var(--f-display);font-size:1rem;margin:0 0 4px}
-.about{margin-top:28px;padding-top:16px;border-top:1px solid var(--grid)}.about a{color:var(--accent)}.navlinks{margin:10px 0 0;font-family:var(--f-mono);font-size:.82rem}.navlinks a,a.inl{color:var(--accent)}</style>
+.rank td.short{color:var(--bad,#c0392b);font-weight:600}.about{margin-top:28px;padding-top:16px;border-top:1px solid var(--grid)}.about a{color:var(--accent)}.navlinks{margin:10px 0 0;font-family:var(--f-mono);font-size:.82rem}.navlinks a,a.inl{color:var(--accent)}</style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script><script defer src="/_vercel/insights/script.js"></script></head><body>
 <div class="wrap">
   <header>
@@ -190,7 +190,7 @@ tr:last-child td{border-bottom:0}
         <tr><td>Best quality</td><td><strong>Claude Opus 5.5</strong> on Pi, or <strong>GPT-6.1 Sol</strong> at medium effort. One run each.</td><td class="num">99</td><td class="num">2–5.5 min</td><td class="num">$0.25–0.86</td></tr>
         <tr><td>Best value</td><td><strong>GPT-6 Luna</strong>, max effort. Any harness.</td><td class="num">80–97</td><td class="num">1–6 min</td><td class="num">~$0.04</td></tr>
         <tr class="grp"><td colspan="5">Local: when it must stay private</td></tr>
-        <tr><td>Use</td><td><strong>Qwen3.8 27B</strong>, plain model, 4-bit, extra-high effort, 65K output limit, on Pi</td><td class="num">86–97</td><td class="num">14–19 min</td><td class="num">$0</td></tr>
+        <tr><td>Use</td><td><strong>Qwen3.8 27B</strong>, plain model, 4-bit, extra-high effort, 65K output limit, on Pi</td><td class="num">86–97<br><span class="small">6 of 7 finished</span></td><td class="num">14–19 min</td><td class="num">$0</td></tr>
         <tr><td>Runner-up</td><td><strong>Swift</strong>, a Qwen3.8 27B fine-tune, same setup. Faster, less steady.</td><td class="num">40–93</td><td class="num">9–11 min</td><td class="num">$0</td></tr>
       </tbody>
     </table></div>
@@ -200,14 +200,15 @@ tr:last-child td{border-bottom:0}
     <h2>Every model, ranked</h2>
     <div class="thesis"><p><strong>One run proves little.</strong> The same Swift setup scored <strong>93</strong>, <strong>93</strong>, <strong>57</strong>, <strong>40</strong>, then <strong>92</strong>. Models are ranked by their <strong>median</strong> run, with the <strong>worst</strong> run beside it.</p></div>
     <div class="brief" style="margin-top:18px">
-      <div><b>Median · Worst</b><p>The middle and the lowest score of a model's runs. Q · J = median quality and judgment, out of 50 each.</p></div>
+      <div><b>Finished</b><p>Runs that produced usable output, out of all runs tried. Runs that stalled or wrote nothing are not scored, so a low finish rate is a warning on its own.</p></div>
+      <div><b>Median · Worst</b><p>The middle and the lowest score of a model's finished runs. Q · J = median quality and judgment, out of 50 each.</p></div>
       <div><b>Harness</b><p>The agent program that drives the model. Pi and OpenCode were used most; Pi + custom prompt: Pi with my own system prompt.</p></div>
       <div><b>Where it ran</b><p>Self-hosted: my laptop or home server. Splash is a faster inference runtime on the same home server. Cloud: a provider's API.</p></div>
       <div><b>Runs counted</b><p id="counted"></p></div>
     </div>
     <div class="legend"><span><i class="h-pi"></i>Pi</span><span><i class="h-o1"></i>OpenCode 1</span><span><i class="h-oc"></i>OpenCode 2</span><span><i class="h-ot"></i>other harness</span></div>
     <div class="tw"><table class="rank" id="rank"></table></div>
-    <p class="small col">Gaps under about 20 points are noise. Quantization and packaging variants are merged into one row; fine-tuned derivatives keep their own. Gray edge: cloud. Green edge: my local pick.</p>
+    <p class="small col">Gaps under about 20 points are noise. Models with no finished run are listed at the bottom. Quantization and packaging variants are merged into one row; fine-tuned derivatives keep their own. Gray edge: cloud. Green edge: my local pick.</p>
   </section>
 
   <section>
@@ -336,20 +337,21 @@ function cells(s,big){
 }
 function rankTable(){
   const g={};
-  FAIR.forEach(r=>{const k=fam(r.m)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
-  const rows=Object.entries(g).map(([k,rs])=>{
+  ALL.filter(fair).forEach(r=>{const k=fam(r.m)+"|"+(r.self?"self":"cloud");(g[k]=g[k]||[]).push(r)});
+  const rows=Object.entries(g).map(([k,tried])=>{
+    const rs=tried.filter(r=>!r.inc);
     const [f,c]=k.split("|");
     const variants=[...new Set(rs.map(r=>r.m))].filter(m=>m!==f).map(m=>m.replace(f,"").replace(/^ · /,"").trim()).filter(Boolean);
     const where=c==="cloud"?"cloud":"self-hosted";
-    return {f,c,rs,where,variants,all:stat(rs),o1:stat(rs.filter(r=>r.h==="OpenCode 1")),o2:stat(rs.filter(r=>r.h==="OpenCode 2")),pi:stat(rs.filter(r=>r.h==="Pi"))};
+    return {f,c,rs,n:tried.length,where,variants,all:stat(rs),o1:stat(rs.filter(r=>r.h==="OpenCode 1")),o2:stat(rs.filter(r=>r.h==="OpenCode 2")),pi:stat(rs.filter(r=>r.h==="Pi"))};
   }).sort((a,b)=>(b.all.med??-999)-(a.all.med??-999)||(b.all.worst??-999)-(a.all.worst??-999));
   const el=document.getElementById("rank");
   el.innerHTML=`<thead><tr class="grp"><th></th><th></th><th></th><th colspan="2" class="sep">All harnesses</th><th></th><th colspan="2" class="sep">OpenCode 1</th><th colspan="2" class="sep">OpenCode 2</th><th colspan="2" class="sep">Pi</th><th></th></tr>
-  <tr><th class="num">#</th><th>Model</th><th class="num">Runs</th><th class="num sep">Median</th><th class="num">Worst</th><th class="num">Q · J</th><th class="num sep">Med</th><th class="num">Worst</th><th class="num sep">Med</th><th class="num">Worst</th><th class="num sep">Med</th><th class="num">Worst</th>
+  <tr><th class="num">#</th><th>Model</th><th class="num">Finished</th><th class="num sep">Median</th><th class="num">Worst</th><th class="num">Q · J</th><th class="num sep">Med</th><th class="num">Worst</th><th class="num sep">Med</th><th class="num">Worst</th><th class="num sep">Med</th><th class="num">Worst</th>
   <th class="strip"><div class="scaleh"><span style="left:0">0</span><span style="left:50%">50</span><span style="left:100%">100</span></div></th></tr></thead><tbody>`+
   rows.map((r,i)=>`<tr class="${r.f===LOCALPICK&&r.c==="self"?"cand":r.c==="cloud"?"cloud":""}"><td class="num hc">${r.all.d?i+1:""}</td>
     <td><div class="mname">${r.f}</div><div class="msub"><span class="where">${r.where}</span>${r.variants.length?" · "+r.variants.join(", "):""}</div></td>
-    <td class="num">${r.all.d}</td>
+    <td class="num${r.all.d<r.n?" short":""}">${r.all.d}/${r.n}</td>
     ${cells(r.all,1)}<td class="qj">${r.all.d?`${f1(r.all.q)} · ${f1(r.all.j)}`:"—"}</td>${cells(r.o1)}${cells(r.o2)}${cells(r.pi)}<td class="strip">${track(r.rs)}</td></tr>`).join("")+`</tbody>`;
   bindDots(el);
 }

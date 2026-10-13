@@ -147,7 +147,9 @@ Every run carries one tag, also in the CSV:
 | `answer-key-assisted` | The agent could see the expected answer | No |
 | `instruction-validity-unknown` | Harness instruction loading was not checked | No |
 
-Rankings also exclude incomplete runs.
+Rankings also exclude incomplete runs: they are not scored as 0. The ranking table shows, for each
+model, how many of its runs finished, so a model that often stalls is visible even when its median
+looks good.
 
 ## Limits
 

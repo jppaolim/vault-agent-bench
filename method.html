@@ -160,7 +160,7 @@ tr:last-child td{border-bottom:0}
 <h2>Evidence tags</h2>
 <p>Every run carries one tag, also in the CSV:</p>
 <div class="tw"><table class="mt"><thead><tr><th>Tag</th><th>Meaning</th><th>Used in rankings</th></tr></thead><tbody><tr><td><code>verified-clean</code></td><td>Verified that the agent could not see the expected answer</td><td>Yes</td></tr><tr><td><code>pre-answer-key</code></td><td>Run before the answer notes existed</td><td>Yes</td></tr><tr><td><code>answer-key-assisted</code></td><td>The agent could see the expected answer</td><td>No</td></tr><tr><td><code>instruction-validity-unknown</code></td><td>Harness instruction loading was not checked</td><td>No</td></tr></tbody></table></div>
-<p>Rankings also exclude incomplete runs.</p>
+<p>Rankings also exclude incomplete runs: they are not scored as 0. The ranking table shows, for each model, how many of its runs finished, so a model that often stalls is visible even when its median looks good.</p>
 <h2>Limits</h2>
 <ul class="learn"><li>One task, one meeting, in French. Results say how models handle this kind of work, not which model is best in general.</li><li>Few runs per setup: many cloud configurations were run once or twice.</li><li>Settings differ across runs (effort, output limits, sampling, harness versions). Two cells are compared only when those differences are stated.</li><li>Cloud sampling settings and memory are not visible, and are recorded as unknown.</li></ul>
 <h2>The data: runs.csv</h2>
